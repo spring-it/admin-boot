@@ -4,7 +4,9 @@
 这是一个基础的springboot的企业级基础项目
 
 #### 软件架构
-软件架构说明
+springboot 2.6.9
+mybatis plus 3.5.1
+
 
 
 #### 安装教程
