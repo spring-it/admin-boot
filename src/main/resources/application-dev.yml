@@ -25,6 +25,18 @@ spring:
 #    # 连接超时时间（毫秒）
 #    timeout: 1000
 
+# xss相关配置 和 去除空格相关配置
+security:
+  xss:
+    enabled: true
+    skip-url:
+      - /api/v1/hello
+  space:
+    enabled: true
+    skip-url:
+      - /api/v1/hello
+
+
 # 日志配置文件位置
 logging:
   config: classpath:log/logback-spring-dev.xml
