@@ -7,19 +7,58 @@
 springboot 2.6.9
 mybatis plus 3.5.1
 
-
-
-#### 安装教程
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
 #### 使用说明
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+# admin-boot
+
+<https://gitee.com/springzb/admin-boot>
+
+[(一)搭建springboot基础架构](/doc/md/(一)搭建springboot基础架构.md "(一)搭建springboot基础架构")
+
+[(二)整合mybatis-plus](/doc/md/(二)整合mybatis-plus.md "(二)整合mybatis-plus")
+
+[(三)整合alibaba druid 连接池](</doc/md/(三)整合alibaba druid 连接池.md>"(三)整合alibaba druid 连接池")
+
+[(四)整合日志框架logback](/doc/md/(四)整合日志框架logback.md "(四)整合日志框架logback")
+
+[(五)整合统一异常和统一返回值](/doc/md/(五)整合统一异常和统一返回值.md "(五)整合统一异常和统一返回值")
+
+[(六)全局处理预防xss攻击](/doc/md/(六)全局处理预防xss攻击.md "(六)全局处理预防xss攻击")
+
+[(七)全局处理字符串两边空格](/doc/md/(七)全局处理字符串两边空格.md "(七)全局处理字符串两边空格")
+
+[(八)knife4j接口文档组件](/doc/md/(八)knife4j接口文档组件.md "(八)knife4j接口文档组件")
+
+### TODO
+
+[(九)代码生成器](/doc/md/(九)代码生成器.md "(九)代码生成器")
+
+[(十)validation验证入参规则](/doc/md/(十)validation验证入参规则.md "(十)validation验证入参规则")
+
+[(十一)整合redis](\(十\)整合redis/\(十\)整合redis.md "(十)整合redis")
+
+[(十二)redisson实现分布式锁](\(十一\)redisson实现分布式锁/\(十一\)redisson实现分布式锁.md "(十一)redisson实现分布式锁")
+
+[(十三)redis注解实现接口限流](\(十二\)redis注解实现接口限流/\(十二\)redis注解实现接口限流.md "(十二)redis注解实现接口限流")
+
+[(十四)redis 注解实现限制重复提交](<(十三)redis 注解实现限制重复提交/(十三)redis 注解实现限制重复提交.md> "(十三)redis 注解实现限制重复提交")
+
+[(十五)spring security实现认证与授权](<(十四)spring security实现认证与授权/(十四)spring security实现认证与授权.md> "(十四)spring security实现认证与授权")
+
+[(十六)整合 xxl-job 分布式定时任务](<(十五)整合 xxl-job 分布式定时任务/(十五)整合 xxl-job 分布式定时任务.md> "(十五)整合 xxl-job 分布式定时任务")
+
+[(十七)国际化支持](\(十六\)国际化支持/\(十六\)国际化支持.md "(十六)国际化支持")
+
+[(十八)文件上传与下载](\(十七\)文件上传与下载/\(十七\)文件上传与下载.md "(十七)文件上传与下载")
+
+[(十九)分布式应用追踪系统skyWalking](\(十九\)分布式应用追踪系统skyWalking/\(十九\)分布式应用追踪系统skyWalking.md "(十九)分布式应用追踪系统skyWalking")
+
+[(二十)使用undertow来替代tomcat容器](\(二十\)使用undertow来替代tomcat容器/\(二十\)使用undertow来替代tomcat容器.md "(二十)使用undertow来替代tomcat容器")
+
+[(二十一)集成easyexcel实现excel表格增强](\(二十一\)集成easyexcel实现excel表格增强/\(二十一\)集成easyexcel实现excel表格增强.md "(二十一)集成easyexcel实现excel表格增强")
+
+[(二十二)集成just-auth实现第三方授权登录](\(二十二\)集成just-auth实现第三方授权登录/\(二十二\)集成just-auth实现第三方授权登录.md "(二十二)集成just-auth实现第三方授权登录")
+
 
 #### 参与贡献
 
@@ -28,12 +67,3 @@ mybatis plus 3.5.1
 3.  提交代码
 4.  新建 Pull Request
 
-
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
