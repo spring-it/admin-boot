@@ -59,6 +59,11 @@ spring:
           slow-sql-millis: 5000
           log-slow-sql: true
           db-type: mysql
+  # Failed to start bean 'documentationPluginsBootstrapper'; nested exception is java.lang.NullPointerException
+  # 因为Springfox 使用的路径匹配是基于AntPathMatcher的，而Spring Boot 2.6.X使用的是PathPatternMatcher
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 # 配置 xml 文件所在位置    配置全局的 主键策略，默认为 ASSIGN_ID 默认为 【雪花算法】 , atuo 自增
 mybatis-plus:
@@ -85,4 +90,17 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     cache-enabled: false
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+#swagger公共信息
+swagger:
+  title: admin项目
+  description: admin项目
+  version: 1.0.0.RELEASE
+  license: Powered By Admin
+  license-url: https://www.mesmile.cn
+  terms-of-service-url: https://www.mesmile.cn
+  contact:
+    name: admin
+    email: admin@163.com
+    url: https://gitee.com/springzb/admin-boot
 

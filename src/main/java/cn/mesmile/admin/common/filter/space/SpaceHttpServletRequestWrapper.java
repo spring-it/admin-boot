@@ -20,6 +20,7 @@ import java.util.Map;
 
 /**
  * xss过滤包装器
+ *
  * @author zb
  */
 @Slf4j
@@ -47,12 +48,12 @@ public class SpaceHttpServletRequestWrapper extends HttpServletRequestWrapper {
             if (this.body == null) {
                 String requestBody = WebUtil.getRequestBody(super.getInputStream());
                 // 去除两边空格
-                if (StrUtil.isNotEmpty(requestBody)){
+                if (StrUtil.isNotEmpty(requestBody)) {
                     // 去除json字符串中所有类型为string两边的空格
                     Map<String, Object> stringObjectMap = StringJsonUtils.
                             jsonStringToMapAndTrim(requestBody, false, true);
                     requestBody = JSONObject.toJSONString(stringObjectMap);
-                }else {
+                } else {
                     // 为空则直接返回
                     return super.getInputStream();
                 }
@@ -64,14 +65,17 @@ public class SpaceHttpServletRequestWrapper extends HttpServletRequestWrapper {
                 public int read() {
                     return byteArrayInputStream.read();
                 }
+
                 @Override
                 public boolean isFinished() {
                     return false;
                 }
+
                 @Override
                 public boolean isReady() {
                     return false;
                 }
+
                 @Override
                 public void setReadListener(ReadListener readListener) {
                 }
@@ -92,7 +96,7 @@ public class SpaceHttpServletRequestWrapper extends HttpServletRequestWrapper {
     public String[] getParameterValues(String name) {
         String[] parameters = super.getParameterValues(name);
         if (parameters != null && parameters.length != 0) {
-            for(int i = 0; i < parameters.length; ++i) {
+            for (int i = 0; i < parameters.length; ++i) {
                 parameters[i] = this.spaceTrim(parameters[i]);
             }
             return parameters;
@@ -106,10 +110,10 @@ public class SpaceHttpServletRequestWrapper extends HttpServletRequestWrapper {
         Map<String, String[]> map = new LinkedHashMap();
         Map<String, String[]> parameters = super.getParameterMap();
         Iterator iterator = parameters.keySet().iterator();
-        while(iterator.hasNext()) {
-            String key = (String)iterator.next();
-            String[] values = (String[])parameters.get(key);
-            for(int i = 0; i < values.length; ++i) {
+        while (iterator.hasNext()) {
+            String key = (String) iterator.next();
+            String[] values = (String[]) parameters.get(key);
+            for (int i = 0; i < values.length; ++i) {
                 values[i] = this.spaceTrim(values[i]);
             }
             map.put(key, values);
@@ -137,6 +141,6 @@ public class SpaceHttpServletRequestWrapper extends HttpServletRequestWrapper {
     }
 
     public static HttpServletRequest getOrgRequest(HttpServletRequest request) {
-        return request instanceof SpaceHttpServletRequestWrapper ? ((SpaceHttpServletRequestWrapper)request).getOrgRequest() : request;
+        return request instanceof SpaceHttpServletRequestWrapper ? ((SpaceHttpServletRequestWrapper) request).getOrgRequest() : request;
     }
 }

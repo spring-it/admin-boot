@@ -1,6 +1,8 @@
 package cn.mesmile.admin.common.result;
 
 import com.sun.istack.internal.Nullable;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.util.Optional;
@@ -9,6 +11,7 @@ import java.util.Optional;
  * @author zb
  * @Description 公共返回信息
  */
+@ApiModel("统一响应结果")
 public class R<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -16,21 +19,25 @@ public class R<T> implements Serializable {
     /**
      * 状态码
      */
+    @ApiModelProperty("状态码")
     private int code;
 
     /**
      * 是否成功
      */
+    @ApiModelProperty("是否成功")
     private boolean success;
 
     /**
      * 承载数据
      */
+    @ApiModelProperty("承载数据")
     private T data;
 
     /**
      * 返回消息
      */
+    @ApiModelProperty("返回消息")
     private String msg;
 
     private R(IResultCode resultCode) {
