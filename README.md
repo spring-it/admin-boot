@@ -1,23 +1,21 @@
 # admin-boot
 
-#### 介绍
+### 介绍
 这是一个基础的springboot的企业级基础项目
 
-#### 软件架构
+### 软件架构
 springboot 2.6.9
 mybatis plus 3.5.1
 
-#### 使用说明
+### 使用文档
 
-# admin-boot
-
-<https://gitee.com/springzb/admin-boot>
+项目地址：<https://gitee.com/springzb/admin-boot>
 
 [(一)搭建springboot基础架构](/doc/md/(一)搭建springboot基础架构.md "(一)搭建springboot基础架构")
 
 [(二)整合mybatis-plus](/doc/md/(二)整合mybatis-plus.md "(二)整合mybatis-plus")
 
-[(三)整合alibaba druid 连接池](</doc/md/(三)整合alibaba druid 连接池.md>"(三)整合alibaba druid 连接池")
+[(三)整合alibaba-druid连接池](/doc/md/(三)整合alibaba-druid连接池.md "(三)整合alibaba-druid连接池")
 
 [(四)整合日志框架logback](/doc/md/(四)整合日志框架logback.md "(四)整合日志框架logback")
 
@@ -60,7 +58,7 @@ mybatis plus 3.5.1
 [(二十二)集成just-auth实现第三方授权登录](\(二十二\)集成just-auth实现第三方授权登录/\(二十二\)集成just-auth实现第三方授权登录.md "(二十二)集成just-auth实现第三方授权登录")
 
 
-#### 参与贡献
+### 参与贡献
 
 1.  Fork 本仓库
 2.  新建 Feat_xxx 分支
