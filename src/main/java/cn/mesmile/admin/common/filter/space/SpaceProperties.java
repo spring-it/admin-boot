@@ -8,6 +8,7 @@ import java.util.Set;
 
 /**
  * 去除请求中字符串两边空格
+ *
  * @author zb
  */
 @ConfigurationProperties("security.space")
@@ -15,12 +16,12 @@ import java.util.Set;
 public class SpaceProperties {
 
     /**
-     *  是否开启去除空格
+     * 是否开启去除空格
      */
     private Boolean enabled = true;
 
     /**
-     *  放行拦截的路径
+     * 放行拦截的路径
      */
     private Set<String> skipUrl = new HashSet<>();
 

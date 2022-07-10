@@ -46,7 +46,7 @@ public class RequestConfiguration {
         return registration;
     }
 
-    public RequestConfiguration(final XssProperties xssProperties,final SpaceProperties spaceProperties) {
+    public RequestConfiguration(final XssProperties xssProperties, final SpaceProperties spaceProperties) {
         this.xssProperties = xssProperties;
         this.spaceProperties = spaceProperties;
     }

@@ -30,7 +30,7 @@ security:
   xss:
     enabled: true
     skip-url:
-      - /api/v1/hello
+      - /api/v1/hello/**
   space:
     enabled: true
     skip-url:
@@ -40,3 +40,26 @@ security:
 # 日志配置文件位置
 logging:
   config: classpath:log/logback-spring-dev.xml
+
+#knife4j配置
+knife4j:
+  #启用
+  enable: true
+  #基础认证
+  basic:
+    enable: false
+    username: admin
+    password: admin
+  #增强配置
+  setting:
+    enableSwaggerModels: true
+    enableDocumentManage: true
+    enableHost: false
+    enableHostText: http://localhost
+    enableRequestCache: true
+    enableFilterMultipartApis: false
+    enableFilterMultipartApiMethodType: POST
+    language: zh-CN
+    enableFooter: false
+    enableFooterCustom: true
+    footerCustomContent: Copyright © 2022 Admin All Rights Reserved

@@ -15,6 +15,7 @@ public class WebUtil {
 
     /**
      * 获取body中的数据
+     *
      * @param servletInputStream 输入流
      * @return body字符串
      */
@@ -24,7 +25,7 @@ public class WebUtil {
         try {
             reader = new BufferedReader(new InputStreamReader(servletInputStream, StandardCharsets.UTF_8));
             String line;
-            while((line = reader.readLine()) != null) {
+            while ((line = reader.readLine()) != null) {
                 sb.append(line);
             }
         } catch (IOException e) {

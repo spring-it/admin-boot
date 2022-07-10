@@ -8,6 +8,7 @@ import java.util.Set;
 
 /**
  * 预防xss攻击设置
+ *
  * @author zb
  * @Description
  */
@@ -16,12 +17,12 @@ import java.util.Set;
 public class XssProperties {
 
     /**
-     *  是否开启xss拦截
+     * 是否开启xss拦截
      */
     private Boolean enabled = true;
 
     /**
-     *  放行拦截的路径
+     * 放行拦截的路径
      */
     private Set<String> skipUrl = new HashSet<>();
 
