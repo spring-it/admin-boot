@@ -4,8 +4,17 @@ import cn.mesmile.admin.common.constant.AdminConstant;
 import cn.mesmile.admin.common.exceptions.*;
 import cn.mesmile.admin.common.result.R;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
+import java.util.stream.Collectors;
 
 /**
  * @author zb
@@ -50,42 +59,42 @@ public class GlobalExceptionHandler {
         return append.toString();
     }
 
-//    @ExceptionHandler(value = {BindException.class, ValidationException.class, MethodArgumentNotValidException.class})
-//    public R handleValidatedException(Exception exception) {
-//        BindingResult bindingResult = null;
-//         if (exception instanceof MethodArgumentNotValidException){
-//             MethodArgumentNotValidException e = (MethodArgumentNotValidException) exception;
-//             bindingResult = e.getBindingResult();
-//             if (bindingResult.hasErrors()) {
-////            String collect = bindingResult.getAllErrors().stream()
-////                    .map(ObjectError::getDefaultMessage)
-////                    .collect(Collectors.joining(";"));
-//                 FieldError fieldError = bindingResult.getFieldError();
-//                 if (fieldError != null) {
-//                     return R.fail(fieldError.getField()+ "：" + fieldError.getDefaultMessage());
-//                 }
-//             }
-//         }else if (exception instanceof ConstraintViolationException){
-//             ConstraintViolationException e = (ConstraintViolationException) exception;
-//             String collect = e.getConstraintViolations().stream()
-//                     .map(ConstraintViolation::getMessage)
-//                     .collect(Collectors.joining(";"));
-//             return R.fail(collect);
-//         }else if (exception instanceof  BindException){
-//             BindException e = (BindException) exception;
-//             bindingResult = e.getBindingResult();
-//             if (bindingResult.hasErrors()) {
-////            String collect = bindingResult.getAllErrors().stream()
-////                    .map(ObjectError::getDefaultMessage)
-////                    .collect(Collectors.joining(";"));
-//                 FieldError fieldError = bindingResult.getFieldError();
-//                 if (fieldError != null) {
-//                     return R.fail(fieldError.getField()+ "：" + fieldError.getDefaultMessage());
-//                 }
-//             }
-//         }
-//        return R.fail(exception.getMessage());
-//    }
+    @ExceptionHandler(value = {BindException.class, ValidationException.class, MethodArgumentNotValidException.class})
+    public R handleValidatedException(Exception exception) {
+        BindingResult bindingResult = null;
+         if (exception instanceof MethodArgumentNotValidException){
+             MethodArgumentNotValidException e = (MethodArgumentNotValidException) exception;
+             bindingResult = e.getBindingResult();
+             if (bindingResult.hasErrors()) {
+//            String collect = bindingResult.getAllErrors().stream()
+//                    .map(ObjectError::getDefaultMessage)
+//                    .collect(Collectors.joining(";"));
+                 FieldError fieldError = bindingResult.getFieldError();
+                 if (fieldError != null) {
+                     return R.fail(fieldError.getField()+ "：" + fieldError.getDefaultMessage());
+                 }
+             }
+         }else if (exception instanceof ConstraintViolationException){
+             ConstraintViolationException e = (ConstraintViolationException) exception;
+             String collect = e.getConstraintViolations().stream()
+                     .map(ConstraintViolation::getMessage)
+                     .collect(Collectors.joining(";"));
+             return R.fail(collect);
+         }else if (exception instanceof BindException){
+             BindException e = (BindException) exception;
+             bindingResult = e.getBindingResult();
+             if (bindingResult.hasErrors()) {
+//            String collect = bindingResult.getAllErrors().stream()
+//                    .map(ObjectError::getDefaultMessage)
+//                    .collect(Collectors.joining(";"));
+                 FieldError fieldError = bindingResult.getFieldError();
+                 if (fieldError != null) {
+                     return R.fail(fieldError.getField()+ "：" + fieldError.getDefaultMessage());
+                 }
+             }
+         }
+        return R.fail(exception.getMessage());
+    }
 
 
     /**
