@@ -37,6 +37,8 @@
         <org.projectlombok.version>1.18.10</org.projectlombok.version>
         <swagger.knife4j.version>2.0.9</swagger.knife4j.version>
         <google.guava.version>30.0-jre</google.guava.version>
+        <velocity.engine.core.version>2.3</velocity.engine.core.version>
+        <apache.commons.text>1.9</apache.commons.text>
     </properties>
 
     <!--锁定版本-->
@@ -113,7 +115,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
-            <version>1.9</version>
+            <version>${apache.commons.text}</version>
         </dependency>
 
         <!--注：从springboot-2.3开始，校验包被独立成了一个starter组件，所以需要引入validation和web，
@@ -124,12 +126,11 @@
         </dependency>
 
         <!--Swagger-->
-<!--        <dependency>-->
-<!--            <groupId>com.github.xiaoymin</groupId>-->
-<!--            <artifactId>knife4j-micro-spring-boot-starter</artifactId>-->
-<!--            <version>${swagger.knife4j.version}</version>-->
-<!--        </dependency>-->
-
+        <!--        <dependency>-->
+        <!--            <groupId>com.github.xiaoymin</groupId>-->
+        <!--            <artifactId>knife4j-micro-spring-boot-starter</artifactId>-->
+        <!--            <version>${swagger.knife4j.version}</version>-->
+        <!--        </dependency>-->
 
         <!--swagger-->
         <dependency>
@@ -143,6 +144,20 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${google.guava.version}</version>
+        </dependency>
+
+        <!--代码生成器-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-generator</artifactId>
+            <version>${mybatis.plus.spring.boot}</version>
+        </dependency>
+
+        <!--模板生成器 velocity-->
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+            <version>${velocity.engine.core.version}</version>
         </dependency>
 
     </dependencies>
