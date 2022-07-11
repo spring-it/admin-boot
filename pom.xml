@@ -17,7 +17,7 @@
         <java.version>1.8</java.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+        <maven.plugin.version>3.8.1</maven.plugin.version>
         <druid.version>1.2.8</druid.version>
         <bitwalker.version>1.21</bitwalker.version>
         <kaptcha.version>2.3.2</kaptcha.version>
@@ -160,6 +160,17 @@
             <version>${velocity.engine.core.version}</version>
         </dependency>
 
+        <!--redis 操作-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <!--启用redis+lettuce客户端+pool连接池-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -202,6 +213,18 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.plugin.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>UTF-8</encoding>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
         </plugins>

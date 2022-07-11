@@ -1,8 +1,8 @@
 package cn.mesmile.admin.common.result;
 
-import com.sun.istack.internal.Nullable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 
 import java.io.Serializable;
 import java.util.Optional;

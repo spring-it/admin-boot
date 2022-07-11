@@ -7,23 +7,25 @@ spring:
     username: root
     password: task,.123
 #  # redis相关配置
-#  redis:
-#    host: 81.69.43.78
-#    database: 6
-#    port: 6379
-#    password:
-#    lettuce:
-#      pool:
-#        # 连接池最大连接数，负值表示没有限制
-#        max-active: 100
-#        # 连接池最大阻塞等待时间 -1 表示没有限制
-#        max-wait: -1ms
-#        # 连接池中最大空闲连接
-#        max-idle: 10
-#        # 连接池中最小空闲连接
-#        min-idle: 0
-#    # 连接超时时间（毫秒）
-#    timeout: 1000
+  redis:
+    host: 81.69.43.78
+    database: 0
+    port: 6379
+    password:
+    lettuce:
+      pool:
+        # 连接池最大连接数，负值表示没有限制
+        max-active: 100
+        # 连接池最大阻塞等待时间 -1 表示没有限制
+        max-wait: -1ms
+        # 连接池中最大空闲连接
+        max-idle: 10
+        # 连接池中最小空闲连接
+        min-idle: 5
+    # 连接超时时间（毫秒）
+    timeout: 2000
+    # 指定客户端
+    client-type: lettuce
 
 # xss相关配置 和 去除空格相关配置
 security:
