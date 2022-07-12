@@ -1,5 +1,7 @@
 package cn.mesmile.admin.modules.system.controller;
 
+import cn.mesmile.admin.common.limit.LimiterModeEnum;
+import cn.mesmile.admin.common.limit.RateLimiter;
 import cn.mesmile.admin.common.lock.RedisLock;
 import cn.mesmile.admin.common.result.R;
 import cn.mesmile.admin.common.utils.AdminRedisTemplate;
@@ -29,6 +31,7 @@ public class HelloController {
     @Resource
     private AdminRedisTemplate adminRedisTemplate;
 
+    @RateLimiter(value = "word",max = 3,limiterMode = LimiterModeEnum.LIMITER_ALL)
     @ApiOperation(value = "用户登录测试接口")
     @ApiImplicitParams({
             @ApiImplicitParam(name="word",value="关键字备注",required = true,type="Integer")

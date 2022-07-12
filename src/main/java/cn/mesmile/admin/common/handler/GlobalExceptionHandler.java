@@ -42,6 +42,17 @@ public class GlobalExceptionHandler {
         return R.fail(businessException.getCode(), businessException.getMessage());
     }
 
+    /**
+     * 拦截限流异常信息
+     * */
+    @ExceptionHandler(RateLimiterException.class)
+    public R handle(RateLimiterException rateLimiterException) {
+        // 获取指定包名前缀的异常信息，减少不必要的日志
+        String stackTraceByPn = getStackTraceByPn(rateLimiterException, AdminConstant.BASE_PACKAGE);
+        log.error("拦截限流异常信息: 消息{} 编码{} {}", rateLimiterException.getMessage(), rateLimiterException.getCode(), stackTraceByPn);
+        return R.fail(rateLimiterException.getCode(), rateLimiterException.getMessage());
+    }
+
     @ExceptionHandler(ServiceException.class)
     public R handle(ServiceException serviceException) {
         // 这里记录所有堆栈信息

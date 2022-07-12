@@ -80,3 +80,8 @@ redisson:
     # 连接redis服务器超时时间
     connection-timeout: ${spring.redis.timeout}
     mode: single
+
+# 是否开启限流功能注解，默认不开启
+rate-limiter:
+  redis:
+    enabled: true

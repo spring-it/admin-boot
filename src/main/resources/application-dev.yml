@@ -84,3 +84,7 @@ redisson:
     # 默认单机模式
     mode: single
 
+# 是否开启限流功能注解，默认不开启
+rate-limiter:
+  redis:
+    enabled: true

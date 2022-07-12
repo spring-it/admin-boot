@@ -37,7 +37,7 @@ public class RedisLockAspect implements ApplicationContextAware {
         String lockParam = redisLock.param();
         String lockKey;
         if (StrUtil.isNotBlank(lockParam)) {
-            String evalAsText = this.evalLockParam(point, lockParam);
+            String evalAsText = EVALUATOR.evalLockParam(point, lockParam, applicationContext);
             lockKey = lockName + ':' + evalAsText;
         } else {
             lockKey = lockName;
@@ -47,20 +47,6 @@ public class RedisLockAspect implements ApplicationContextAware {
         long leaseTime = redisLock.leaseTime();
         TimeUnit timeUnit = redisLock.timeUnit();
         return this.redisLockClient.lock(lockKey, lockType, waitTime, leaseTime, timeUnit, point::proceed);
-    }
-
-    /**
-     * 解析el表达式
-     */
-    private String evalLockParam(ProceedingJoinPoint point, String lockParam) {
-        MethodSignature ms = (MethodSignature)point.getSignature();
-        Method method = ms.getMethod();
-        Object[] args = point.getArgs();
-        Object target = point.getTarget();
-        Class<?> targetClass = target.getClass();
-        EvaluationContext context = EVALUATOR.createContext(method, args, target, targetClass, this.applicationContext);
-        AnnotatedElementKey elementKey = new AnnotatedElementKey(method, targetClass);
-        return EVALUATOR.evalAsText(lockParam, elementKey, context);
     }
 
     @Override
