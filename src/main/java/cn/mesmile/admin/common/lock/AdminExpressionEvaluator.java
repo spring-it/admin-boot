@@ -1,7 +1,10 @@
 package cn.mesmile.admin.common.lock;
 
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.expression.AnnotatedElementKey;
 import org.springframework.context.expression.BeanFactoryResolver;
 import org.springframework.context.expression.CachedExpressionEvaluator;
@@ -41,6 +44,20 @@ public class AdminExpressionEvaluator extends CachedExpressionEvaluator {
             evaluationContext.setBeanResolver(new BeanFactoryResolver(beanFactory));
         }
         return evaluationContext;
+    }
+
+    /**
+     * 解析el表达式
+     */
+    public String evalLockParam(ProceedingJoinPoint point, String lockParam, ApplicationContext applicationContext) {
+        MethodSignature ms = (MethodSignature)point.getSignature();
+        Method method = ms.getMethod();
+        Object[] args = point.getArgs();
+        Object target = point.getTarget();
+        Class<?> targetClass = target.getClass();
+        EvaluationContext context = createContext(method, args, target, targetClass, applicationContext);
+        AnnotatedElementKey elementKey = new AnnotatedElementKey(method, targetClass);
+        return evalAsText(lockParam, elementKey, context);
     }
 
     @Nullable
