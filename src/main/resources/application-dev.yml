@@ -32,11 +32,15 @@ security:
   xss:
     enabled: true
     skip-url:
-      - /api/v1/hello/**
+      - /swagger-resources
+      - /v2/api-docs
+      - /doc.html
   space:
     enabled: true
     skip-url:
-      - /api/v1/hello
+      - /swagger-resources
+      - /v2/api-docs
+      - /doc.html
 
 
 # 日志配置文件位置
