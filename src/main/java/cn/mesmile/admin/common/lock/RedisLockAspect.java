@@ -1,9 +1,6 @@
 package cn.mesmile.admin.common.lock;
 
-import java.lang.reflect.Method;
-import java.util.concurrent.TimeUnit;
-
-import jodd.util.StringUtil;
+import cn.hutool.core.util.StrUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -14,6 +11,9 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.expression.AnnotatedElementKey;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.util.Assert;
+
+import java.lang.reflect.Method;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author zb
@@ -26,28 +26,32 @@ public class RedisLockAspect implements ApplicationContextAware {
     private final RedisLockClient redisLockClient;
     private ApplicationContext applicationContext;
 
+    public RedisLockAspect(final RedisLockClient redisLockClient) {
+        this.redisLockClient = redisLockClient;
+    }
+
     @Around("@annotation(redisLock)")
     public Object aroundRedisLock(ProceedingJoinPoint point, RedisLock redisLock) {
         String lockName = redisLock.value();
-        Assert.hasText(lockName, "@RedisLock value must have length; it must not be null or empty");
+        Assert.hasText(lockName, "@RedisLock 中 value 不能为 null 或为空");
         String lockParam = redisLock.param();
         String lockKey;
-        if (StringUtil.isNotBlank(lockParam)) {
+        if (StrUtil.isNotBlank(lockParam)) {
             String evalAsText = this.evalLockParam(point, lockParam);
             lockKey = lockName + ':' + evalAsText;
         } else {
             lockKey = lockName;
         }
-
         LockTypeEnum lockType = redisLock.type();
         long waitTime = redisLock.waitTime();
         long leaseTime = redisLock.leaseTime();
         TimeUnit timeUnit = redisLock.timeUnit();
-        RedisLockClient redisLockClient = this.redisLockClient;
-        point.getClass();
-        return redisLockClient.lock(lockKey, lockType, waitTime, leaseTime, timeUnit, point::proceed);
+        return this.redisLockClient.lock(lockKey, lockType, waitTime, leaseTime, timeUnit, point::proceed);
     }
 
+    /**
+     * 解析el表达式
+     */
     private String evalLockParam(ProceedingJoinPoint point, String lockParam) {
         MethodSignature ms = (MethodSignature)point.getSignature();
         Method method = ms.getMethod();
@@ -64,7 +68,4 @@ public class RedisLockAspect implements ApplicationContextAware {
         this.applicationContext = applicationContext;
     }
 
-    public RedisLockAspect(final RedisLockClient redisLockClient) {
-        this.redisLockClient = redisLockClient;
-    }
 }

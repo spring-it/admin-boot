@@ -5,10 +5,10 @@ import org.springframework.lang.Nullable;
 
 /**
  * @author zb
- * @Description
+ * @Description 可以抛出异常的
  */
 @FunctionalInterface
-public interface CheckedSupplier<T> {
+public interface ThrowSupplier<T> {
 
     @Nullable
     T get() throws Throwable;

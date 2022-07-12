@@ -16,17 +16,19 @@ import org.springframework.context.annotation.Configuration;
  * @Description
  */
 @Configuration(
-    proxyBeanMethods = false
+        proxyBeanMethods = false
 )
 @ConditionalOnClass({RedissonClient.class})
 @EnableConfigurationProperties({RedissonLockProperties.class})
 @ConditionalOnProperty(
-    value = {"redisson.lock.enabled"},
-    havingValue = "true"
+        value = {"redisson.lock.enabled"},
+        havingValue = "true"
 )
 public class RedissonLockAutoConfiguration {
 
-
+    /**
+     * 单机配置
+     */
     private static Config singleConfig(RedissonLockProperties properties) {
         Config config = new Config();
         SingleServerConfig serversConfig = config.useSingleServer();
@@ -35,16 +37,18 @@ public class RedissonLockAutoConfiguration {
         if (StrUtil.isNotBlank(password)) {
             serversConfig.setPassword(password);
         }
-
         serversConfig.setDatabase(properties.getDatabase());
         serversConfig.setConnectionPoolSize(properties.getPoolSize());
         serversConfig.setConnectionMinimumIdleSize(properties.getIdleSize());
-        serversConfig.setIdleConnectionTimeout(properties.getConnectionTimeout());
+        serversConfig.setIdleConnectionTimeout(properties.getIdleTimeout());
         serversConfig.setConnectTimeout(properties.getConnectionTimeout());
         serversConfig.setTimeout(properties.getTimeout());
         return config;
     }
 
+    /**
+     * 主从配置
+     */
     private static Config masterSlaveConfig(RedissonLockProperties properties) {
         Config config = new Config();
         MasterSlaveServersConfig serversConfig = config.useMasterSlaveServers();
@@ -54,18 +58,20 @@ public class RedissonLockAutoConfiguration {
         if (StrUtil.isNotBlank(password)) {
             serversConfig.setPassword(password);
         }
-
         serversConfig.setDatabase(properties.getDatabase());
         serversConfig.setMasterConnectionPoolSize(properties.getPoolSize());
         serversConfig.setMasterConnectionMinimumIdleSize(properties.getIdleSize());
         serversConfig.setSlaveConnectionPoolSize(properties.getPoolSize());
         serversConfig.setSlaveConnectionMinimumIdleSize(properties.getIdleSize());
-        serversConfig.setIdleConnectionTimeout(properties.getConnectionTimeout());
+        serversConfig.setIdleConnectionTimeout(properties.getIdleTimeout());
         serversConfig.setConnectTimeout(properties.getConnectionTimeout());
         serversConfig.setTimeout(properties.getTimeout());
         return config;
     }
 
+    /**
+     * 哨兵配置
+     */
     private static Config sentinelConfig(RedissonLockProperties properties) {
         Config config = new Config();
         SentinelServersConfig serversConfig = config.useSentinelServers();
@@ -75,18 +81,20 @@ public class RedissonLockAutoConfiguration {
         if (StrUtil.isNotBlank(password)) {
             serversConfig.setPassword(password);
         }
-
         serversConfig.setDatabase(properties.getDatabase());
         serversConfig.setMasterConnectionPoolSize(properties.getPoolSize());
         serversConfig.setMasterConnectionMinimumIdleSize(properties.getIdleSize());
         serversConfig.setSlaveConnectionPoolSize(properties.getPoolSize());
         serversConfig.setSlaveConnectionMinimumIdleSize(properties.getIdleSize());
-        serversConfig.setIdleConnectionTimeout(properties.getConnectionTimeout());
+        serversConfig.setIdleConnectionTimeout(properties.getIdleTimeout());
         serversConfig.setConnectTimeout(properties.getConnectionTimeout());
         serversConfig.setTimeout(properties.getTimeout());
         return config;
     }
 
+    /**
+     * 集群配置
+     */
     private static Config clusterConfig(RedissonLockProperties properties) {
         Config config = new Config();
         ClusterServersConfig serversConfig = config.useClusterServers();
@@ -95,7 +103,6 @@ public class RedissonLockAutoConfiguration {
         if (StrUtil.isNotBlank(password)) {
             serversConfig.setPassword(password);
         }
-
         serversConfig.setMasterConnectionPoolSize(properties.getPoolSize());
         serversConfig.setMasterConnectionMinimumIdleSize(properties.getIdleSize());
         serversConfig.setSlaveConnectionPoolSize(properties.getPoolSize());
@@ -121,23 +128,22 @@ public class RedissonLockAutoConfiguration {
     private static RedissonClient redissonClient(RedissonLockProperties properties) {
         RedissonLockProperties.Mode mode = properties.getMode();
         Config config;
-        switch(mode) {
-        case sentinel:
-            config = sentinelConfig(properties);
-            break;
-        case cluster:
-            config = clusterConfig(properties);
-            break;
-        case master:
-            config = masterSlaveConfig(properties);
-            break;
-        case single:
-            config = singleConfig(properties);
-            break;
-        default:
-            config = new Config();
+        switch (mode) {
+            case sentinel:
+                config = sentinelConfig(properties);
+                break;
+            case cluster:
+                config = clusterConfig(properties);
+                break;
+            case master:
+                config = masterSlaveConfig(properties);
+                break;
+            case single:
+                config = singleConfig(properties);
+                break;
+            default:
+                config = new Config();
         }
-
         return Redisson.create(config);
     }
 }

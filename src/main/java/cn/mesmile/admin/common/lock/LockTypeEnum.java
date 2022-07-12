@@ -2,7 +2,7 @@ package cn.mesmile.admin.common.lock;
 
 /**
  * @author zb
- * @Description
+ * @Description 锁类型
  */
 public enum LockTypeEnum {
 

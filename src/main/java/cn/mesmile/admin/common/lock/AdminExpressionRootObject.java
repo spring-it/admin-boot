@@ -1,5 +1,7 @@
 package cn.mesmile.admin.common.lock;
 
+import lombok.Data;
+
 import java.lang.reflect.Method;
 
 
@@ -7,35 +9,16 @@ import java.lang.reflect.Method;
  * @author zb
  * @Description
  */
+@Data
 public class AdminExpressionRootObject {
 
-    private final Method method;
-    private final Object[] args;
-    private final Object target;
-    private final Class<?> targetClass;
-    private final Method targetMethod;
+    private  Method method;
+    private  Object[] args;
+    private  Object target;
+    private  Class<?> targetClass;
+    private  Method targetMethod;
 
-    public Method getMethod() {
-        return this.method;
-    }
-
-    public Object[] getArgs() {
-        return this.args;
-    }
-
-    public Object getTarget() {
-        return this.target;
-    }
-
-    public Class<?> getTargetClass() {
-        return this.targetClass;
-    }
-
-    public Method getTargetMethod() {
-        return this.targetMethod;
-    }
-
-    public AdminExpressionRootObject(final Method method, final Object[] args, final Object target, final Class<?> targetClass, final Method targetMethod) {
+    public AdminExpressionRootObject(Method method, Object[] args, Object target, Class<?> targetClass, Method targetMethod) {
         this.method = method;
         this.args = args;
         this.target = target;

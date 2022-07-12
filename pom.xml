@@ -39,6 +39,7 @@
         <google.guava.version>30.0-jre</google.guava.version>
         <velocity.engine.core.version>2.3</velocity.engine.core.version>
         <apache.commons.text>1.9</apache.commons.text>
+        <redisson.version>3.13.6</redisson.version>
     </properties>
 
     <!--锁定版本-->
@@ -171,11 +172,11 @@
             <artifactId>commons-pool2</artifactId>
         </dependency>
 
-        <!-- redisson  -->
+        <!-- redisson 实现分布式锁 -->
         <dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson</artifactId>
-            <version>3.13.6</version>
+            <version>${redisson.version}</version>
         </dependency>
 
         <!--aop切面-->
