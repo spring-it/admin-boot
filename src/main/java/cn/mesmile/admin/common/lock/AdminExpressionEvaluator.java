@@ -53,24 +53,24 @@ public class AdminExpressionEvaluator extends CachedExpressionEvaluator {
     /**
      * 解析el表达式
      */
-    public String evalLockParam(HttpServletRequest request,Method method, String lockParam, ApplicationContext applicationContext) {
-        //        MethodSignature ms = (MethodSignature)point.getSignature();
-//        Object[] args = point.getArgs();
-//        Object target = point.getTarget();
-//        Class<?> targetClass = target.getClass();
-//        EvaluationContext context = createContext(method, args, target, targetClass, applicationContext);
-//        AnnotatedElementKey elementKey = new AnnotatedElementKey(method, targetClass);
-//        // 判断是否有多个表达式
-//        List<String> splitValue = StrUtil.split(lockParam, ";");
-//        StringBuilder stringBuilder = new StringBuilder();
-//        for (String param : splitValue) {
-//            if (StrUtil.isNotBlank(param)){
-//                String value = evalAsText(param, elementKey, context);
-//                stringBuilder.append(value);
-//            }
-//        }
-//        return stringBuilder.toString();
-        return "";
+    public String evalLockParam(Method method,Object[] args,Object target ,String lockParam, ApplicationContext applicationContext) {
+        return evalLockParams(method, args, target, lockParam, applicationContext);
+    }
+
+    private String evalLockParams(Method method, Object[] args, Object target, String lockParam, ApplicationContext applicationContext) {
+        Class<?> targetClass = target.getClass();
+        EvaluationContext context = createContext(method, args, target, targetClass, applicationContext);
+        AnnotatedElementKey elementKey = new AnnotatedElementKey(method, targetClass);
+        // 判断是否有多个表达式
+        List<String> splitValue = StrUtil.split(lockParam, ";");
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String param : splitValue) {
+            if (StrUtil.isNotBlank(param)) {
+                String value = evalAsText(param, elementKey, context);
+                stringBuilder.append(value);
+            }
+        }
+        return stringBuilder.toString();
     }
 
     /**
@@ -81,19 +81,7 @@ public class AdminExpressionEvaluator extends CachedExpressionEvaluator {
         Method method = ms.getMethod();
         Object[] args = point.getArgs();
         Object target = point.getTarget();
-        Class<?> targetClass = target.getClass();
-        EvaluationContext context = createContext(method, args, target, targetClass, applicationContext);
-        AnnotatedElementKey elementKey = new AnnotatedElementKey(method, targetClass);
-        // 判断是否有多个表达式
-        List<String> splitValue = StrUtil.split(lockParam, ";");
-        StringBuilder stringBuilder = new StringBuilder();
-        for (String param : splitValue) {
-            if (StrUtil.isNotBlank(param)){
-                String value = evalAsText(param, elementKey, context);
-                stringBuilder.append(value);
-            }
-        }
-        return stringBuilder.toString();
+        return evalLockParams(method, args, target, lockParam, applicationContext);
     }
 
     @Nullable

@@ -31,6 +31,7 @@ public class HelloController {
     private AdminRedisTemplate adminRedisTemplate;
 
     @RateLimiter(max = 3,limiterMode = LimiterModeEnum.LIMITER_ALL)
+    @RepeatSubmit(interval = 20000, param = "#word")
     @ApiOperation(value = "用户登录测试接口")
     @ApiImplicitParams({
             @ApiImplicitParam(name="word",value="关键字备注",required = true,type="Integer")
@@ -42,6 +43,7 @@ public class HelloController {
 
 
     @RedisLock(value = "buy",param = "#request.getLocalPort()")
+    @RepeatSubmit(interval = 20000)
     @GetMapping("/buy")
     public R buy (HttpServletRequest request){
         int localPort = request.getLocalPort();
@@ -57,7 +59,7 @@ public class HelloController {
     }
 
     @RateLimiter(param = "#s.hello")
-    @RepeatSubmit(interval = 10000)
+    @RepeatSubmit(interval = 20000, param = "#s.hello")
     @PostMapping("/test")
     public R submit(@RequestBody Sys s){
         System.out.println("s = " + s);

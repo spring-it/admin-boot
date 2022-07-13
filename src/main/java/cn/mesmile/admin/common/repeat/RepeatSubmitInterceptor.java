@@ -13,6 +13,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.MethodParameter;
+import org.springframework.http.MediaType;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,7 +24,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author zb
@@ -45,12 +46,9 @@ public class RepeatSubmitInterceptor implements HandlerInterceptor, ApplicationC
         if (handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
             Method method = handlerMethod.getMethod();
-
-            Object target = handlerMethod.getBean();
-            Class<?> targetClass = handlerMethod.getBeanType();
             RepeatSubmit annotation = method.getAnnotation(RepeatSubmit.class);
             if (annotation != null) {
-                if (this.isRepeatSubmit(request, annotation, method)) {
+                if (this.isRepeatSubmit(request, annotation, handlerMethod)) {
                     throw new RepeatSubmitException(ResultCode.FAILURE, annotation.msg());
                 }
             }
@@ -60,23 +58,48 @@ public class RepeatSubmitInterceptor implements HandlerInterceptor, ApplicationC
 
     private static final AdminExpressionEvaluator EVALUATOR = new AdminExpressionEvaluator();
 
-    private boolean isRepeatSubmit(HttpServletRequest request, RepeatSubmit annotation,Method method) throws IOException {
-//        LoginUserDetails principal = (LoginUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        String username = principal.getUsername();
+    /**
+     * 是否是 重复提交
+     * @param request 请求体
+     * @param annotation 注解
+     * @param handlerMethod 拦截方法
+     * @return
+     */
+    private boolean isRepeatSubmit(HttpServletRequest request, RepeatSubmit annotation, HandlerMethod handlerMethod) {
+        Method method = handlerMethod.getMethod();
+        List<Object> objects = new ArrayList<>();
+        String jsonValue = null;
+        Map<String, String[]> parameterMap = null;
+        if (request instanceof RepeatSubmitRequestWrapper) {
+            RepeatSubmitRequestWrapper requestWrapper = (RepeatSubmitRequestWrapper) request;
+            jsonValue = requestWrapper.getRequestBody();
+            Parameter[] parameters = method.getParameters();
+            if (parameters != null && parameters.length > 0 && StrUtil.isNotEmpty(jsonValue)) {
+                for (Parameter parameter : parameters) {
+                    Class<?> type = parameter.getType();
+                    Object object = JSONObject.parseObject(jsonValue, type);
+                    objects.add(object);
+                }
+            }
+        } else {
+            parameterMap = request.getParameterMap();
+            if (parameterMap != null && parameterMap.size() > 0) {
+                Collection<String[]> values = parameterMap.values();
+                objects.addAll(values);
+            }
+        }
         String param = annotation.param();
         String value = "";
-        if (StrUtil.isNotBlank(param)){
-            value = EVALUATOR.evalLockParam(request, method ,param, applicationContext);
-        }else {
-            if (request instanceof RepeatSubmitRequestWrapper){
-                RepeatSubmitRequestWrapper requestWrapper = (RepeatSubmitRequestWrapper) request;
-                // 读取mvc中 @RequestBody 对应的json对象
-//                value = WebUtil.getRequestBody(requestWrapper.getInputStream());
-                value = requestWrapper.getRequestBody();
-            }else {
+        // 提取自定义参数
+        if (StrUtil.isNotBlank(param)) {
+            value = EVALUATOR.evalLockParam(method, objects.toArray(), handlerMethod.getBean(), param, applicationContext);
+        } else {
+            if (request instanceof RepeatSubmitRequestWrapper) {
+                // 提取json数据
+                value = jsonValue;
+            } else {
                 // 读取 get 请求数据
-                Map<String, String[]> parameterMap = request.getParameterMap();
-                if (parameterMap != null && parameterMap.size() > 0){
+                if (parameterMap != null && parameterMap.size() > 0) {
                     String parameters = JSONObject.toJSONString(parameterMap);
                     value = value + parameters;
                 }
@@ -84,13 +107,13 @@ public class RepeatSubmitInterceptor implements HandlerInterceptor, ApplicationC
         }
         String uri = request.getRequestURI();
         String key = annotation.prefix() + ":" + uri;
-        if (StrUtil.isNotBlank(value)){
+        if (StrUtil.isNotBlank(value)) {
             String md5Str = MD5.create().digestHex(value, StandardCharsets.UTF_8);
-            key = key +":"+ md5Str;
+            key = key + ":" + md5Str;
         }
         boolean result = adminRedisTemplate.setIfAbsentExpire(key, value, annotation.interval(), annotation.timeUnit());
-        if (!result){
-            log.error("重复提交异常：uri:{}, param:{}",uri, value);
+        if (!result) {
+            log.error("重复提交异常：uri:{}, param:{}", uri, value);
         }
         return !result;
     }
