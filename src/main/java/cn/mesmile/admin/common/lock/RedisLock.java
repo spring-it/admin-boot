@@ -24,6 +24,7 @@ public @interface RedisLock {
     /**
      * 参数，支持 spring el表达式 #读取方法参数和@读取spring bean
      * 例如 @RedisLock(value = "buy",param = "#request.getLocalPort()")
+     * 当有多个表达式的时候中间用 ; 分割
      */
     String param() default "";
 

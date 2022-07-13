@@ -1,5 +1,7 @@
 package cn.mesmile.admin.common.limit;
 
+import cn.mesmile.admin.common.constant.AdminConstant;
+
 import java.lang.annotation.*;
 import java.util.concurrent.TimeUnit;
 
@@ -13,17 +15,18 @@ import java.util.concurrent.TimeUnit;
 public @interface RateLimiter {
 
     /**
-     * 限流的key，唯一
+     * 自定义缓存key,可选
      */
-    String value();
+    String customKey() default "";
 
     /**
      * 限流key，前缀
      */
-    String prefix() default "limit";
+    String prefix() default AdminConstant.RATE_LIMITER_PREFIX;
 
     /**
      * 方法参数，支持spring el 表达式例如  #reques.getValue()
+     * 当有多个表达式的时候中间用 ; 分割
      */
     String param() default "";
 

@@ -1,6 +1,5 @@
 package cn.mesmile.admin.common.limit;
 
-import cn.hutool.core.collection.CollUtil;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
 
@@ -32,11 +31,11 @@ public class RateLimiterClientImpl implements RateLimiterClient {
         long ttlMillis = timeUnit.toMillis(ttl);
         // 过期时间点
         long expired = now - ttlMillis;
-        List<Long> results = (List)redisTemplate
-                // 注意这里必须转为 String,否则会报错 java.lang.Long cannot be cast to java.lang.String
-                .execute(script, keys, new Object[]{now + "", ttlMillis + "", expired + "", max + ""});
+        // 注意这里必须转为 String,否则会报错 java.lang.Long cannot be cast to java.lang.String
+        Object[] params = new Object[]{now + "", ttlMillis + "", expired + "", max + ""};
+        List<Long> results = redisTemplate.execute(script, keys, params);
         if (results != null && results.size() > 0) {
-            Long result = (Long)results.get(0);
+            Long result = results.get(0);
             return result != 0L;
         } else {
             return false;

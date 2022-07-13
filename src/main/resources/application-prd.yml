@@ -90,3 +90,11 @@ redisson:
 rate-limiter:
   redis:
     enabled: true
+# 是否开启检查重复提交注解
+repeat:
+  submit:
+    enabled: true
+    skip-url:
+      - /swagger-resources
+      - /v2/api-docs
+      - /doc.html

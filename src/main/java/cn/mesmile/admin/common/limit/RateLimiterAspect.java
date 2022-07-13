@@ -38,18 +38,22 @@ public class RateLimiterAspect implements ApplicationContextAware {
     @Around("@annotation(rateLimiter)")
     public Object aroundRedisLock(ProceedingJoinPoint point, RateLimiter rateLimiter) throws Throwable {
         String prefix = rateLimiter.prefix();
-        String keyName = rateLimiter.value();
-        Assert.hasText(keyName, "@RateLimiter 中value不允许为空或为null");
         String param = rateLimiter.param();
-        keyName = prefix + ":" + keyName;
+        String customKey = rateLimiter.customKey();
+        String keyName = prefix;
+        ServletRequestAttributes requestAttributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
+        if (requestAttributes != null){
+            HttpServletRequest request = requestAttributes.getRequest();
+            String requestUri = request.getRequestURI();
+            keyName = keyName + ":" + requestUri;
+        }
         if (StrUtil.isNotBlank(param)) {
             String evalLockParam = EVALUATOR.evalLockParam(point, param, applicationContext);
             keyName = keyName + ":" +evalLockParam ;
         }
-        long max = rateLimiter.max();
-        long ttl = rateLimiter.ttl();
-        TimeUnit timeUnit = rateLimiter.timeUnit();
-        ServletRequestAttributes requestAttributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
+        if (StrUtil.isNotBlank(customKey)){
+            keyName = keyName + ":" +customKey ;
+        }
         if (LimiterModeEnum.LIMITER_IP.equals(rateLimiter.limiterMode())) {
             if (requestAttributes != null){
                 HttpServletRequest request = requestAttributes.getRequest();
@@ -59,7 +63,7 @@ public class RateLimiterAspect implements ApplicationContextAware {
             }
         }
         // 判断是否允许访问
-        boolean allow = rateLimiterClient.isAllow(keyName, max, ttl , timeUnit);
+        boolean allow = rateLimiterClient.isAllow(keyName, rateLimiter.max(), rateLimiter.ttl() , rateLimiter.timeUnit());
         if (allow){
             return point.proceed();
         }else {

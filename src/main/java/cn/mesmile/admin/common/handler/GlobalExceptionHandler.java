@@ -38,7 +38,7 @@ public class GlobalExceptionHandler {
     public R handle(BusinessException businessException) {
         // 获取指定包名前缀的异常信息，减少不必要的日志
         String stackTraceByPn = getStackTraceByPn(businessException, AdminConstant.BASE_PACKAGE);
-        log.error("记录业务异常信息: 消息{} 编码{} {}", businessException.getMessage(), businessException.getCode(), stackTraceByPn);
+        log.error("记录业务异常信息, 消息:{} 编码:{} {}", businessException.getMessage(), businessException.getCode(), stackTraceByPn);
         return R.fail(businessException.getCode(), businessException.getMessage());
     }
 
@@ -48,15 +48,25 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RateLimiterException.class)
     public R handle(RateLimiterException rateLimiterException) {
         // 获取指定包名前缀的异常信息，减少不必要的日志
-        String stackTraceByPn = getStackTraceByPn(rateLimiterException, AdminConstant.BASE_PACKAGE);
-        log.error("拦截限流异常信息: 消息{} 编码{} {}", rateLimiterException.getMessage(), rateLimiterException.getCode(), stackTraceByPn);
+//        String stackTraceByPn = getStackTraceByPn(rateLimiterException, AdminConstant.BASE_PACKAGE);
+        log.error("拦截限流异常信息, 消息:{} 编码:{}", rateLimiterException.getMessage(), rateLimiterException.getCode());
         return R.fail(rateLimiterException.getCode(), rateLimiterException.getMessage());
+    }
+    /**
+     * 重复提交异常信息
+     * */
+    @ExceptionHandler(RepeatSubmitException.class)
+    public R handle(RepeatSubmitException repeatSubmitException) {
+        // 获取指定包名前缀的异常信息，减少不必要的日志
+//        String stackTraceByPn = getStackTraceByPn(rateLimiterException, AdminConstant.BASE_PACKAGE);
+        log.error("重复提交异常信息, 消息:{} 编码:{}", repeatSubmitException.getMessage(), repeatSubmitException.getCode());
+        return R.fail(repeatSubmitException.getCode(), repeatSubmitException.getMessage());
     }
 
     @ExceptionHandler(ServiceException.class)
     public R handle(ServiceException serviceException) {
         // 这里记录所有堆栈信息
-        log.error("记录业务异常信息: 消息{} 编码{}", serviceException.getMessage(), serviceException.getCode(), serviceException);
+        log.error("记录业务异常信息, 消息:{} 编码:{}", serviceException.getMessage(), serviceException.getCode(), serviceException);
         return R.fail(serviceException.getCode(), serviceException.getMessage());
     }
 
