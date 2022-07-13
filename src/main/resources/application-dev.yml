@@ -32,11 +32,15 @@ security:
   xss:
     enabled: true
     skip-url:
-      - /api/v1/hello/**
+      - /swagger-resources
+      - /v2/api-docs
+      - /doc.html
   space:
     enabled: true
     skip-url:
-      - /api/v1/hello
+      - /swagger-resources
+      - /v2/api-docs
+      - /doc.html
 
 
 # 日志配置文件位置
@@ -88,3 +92,11 @@ redisson:
 rate-limiter:
   redis:
     enabled: true
+# 是否开启检查重复提交注解
+repeat:
+  submit:
+    enabled: true
+    skip-url:
+      - /swagger-resources
+      - /v2/api-docs
+      - /doc.html

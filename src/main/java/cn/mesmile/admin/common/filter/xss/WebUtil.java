@@ -1,5 +1,7 @@
 package cn.mesmile.admin.common.filter.xss;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
@@ -11,6 +13,7 @@ import java.nio.charset.StandardCharsets;
  * @author zb
  * @Description
  */
+@Slf4j
 public class WebUtil {
 
     /**
@@ -22,27 +25,36 @@ public class WebUtil {
     public static String getRequestBody(ServletInputStream servletInputStream) {
         StringBuilder sb = new StringBuilder();
         BufferedReader reader = null;
+        InputStreamReader inputStreamReader = null;
         try {
-            reader = new BufferedReader(new InputStreamReader(servletInputStream, StandardCharsets.UTF_8));
+            inputStreamReader = new InputStreamReader(servletInputStream, StandardCharsets.UTF_8);
+            reader = new BufferedReader(inputStreamReader);
             String line;
             while ((line = reader.readLine()) != null) {
                 sb.append(line);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            log.error("io读数据异常", e);
         } finally {
-            if (servletInputStream != null) {
-                try {
-                    servletInputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
             if (reader != null) {
                 try {
                     reader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } catch (Exception e) {
+                    log.error("reader关闭流异常", e);
+                }
+            }
+            if (inputStreamReader != null) {
+                try {
+                    inputStreamReader.close();
+                } catch (Exception e) {
+                    log.error("inputStreamReader关闭流异常", e);
+                }
+            }
+            if (servletInputStream != null) {
+                try {
+                    servletInputStream.close();
+                } catch (Exception e) {
+                    log.error("servletInputStream关闭流异常", e);
                 }
             }
         }

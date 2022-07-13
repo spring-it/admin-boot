@@ -1,5 +1,6 @@
 package cn.mesmile.admin.common.lock;
 
+import cn.hutool.core.util.StrUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.aop.support.AopUtils;
@@ -12,8 +13,11 @@ import org.springframework.context.expression.MethodBasedEvaluationContext;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;
 import org.springframework.lang.Nullable;
+import org.springframework.transaction.annotation.SpringTransactionAnnotationParser;
 
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -49,15 +53,35 @@ public class AdminExpressionEvaluator extends CachedExpressionEvaluator {
     /**
      * 解析el表达式
      */
+    public String evalLockParam(Method method,Object[] args,Object target ,String lockParam, ApplicationContext applicationContext) {
+        return evalLockParams(method, args, target, lockParam, applicationContext);
+    }
+
+    private String evalLockParams(Method method, Object[] args, Object target, String lockParam, ApplicationContext applicationContext) {
+        Class<?> targetClass = target.getClass();
+        EvaluationContext context = createContext(method, args, target, targetClass, applicationContext);
+        AnnotatedElementKey elementKey = new AnnotatedElementKey(method, targetClass);
+        // 判断是否有多个表达式
+        List<String> splitValue = StrUtil.split(lockParam, ";");
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String param : splitValue) {
+            if (StrUtil.isNotBlank(param)) {
+                String value = evalAsText(param, elementKey, context);
+                stringBuilder.append(value);
+            }
+        }
+        return stringBuilder.toString();
+    }
+
+    /**
+     * 解析el表达式
+     */
     public String evalLockParam(ProceedingJoinPoint point, String lockParam, ApplicationContext applicationContext) {
         MethodSignature ms = (MethodSignature)point.getSignature();
         Method method = ms.getMethod();
         Object[] args = point.getArgs();
         Object target = point.getTarget();
-        Class<?> targetClass = target.getClass();
-        EvaluationContext context = createContext(method, args, target, targetClass, applicationContext);
-        AnnotatedElementKey elementKey = new AnnotatedElementKey(method, targetClass);
-        return evalAsText(lockParam, elementKey, context);
+        return evalLockParams(method, args, target, lockParam, applicationContext);
     }
 
     @Nullable

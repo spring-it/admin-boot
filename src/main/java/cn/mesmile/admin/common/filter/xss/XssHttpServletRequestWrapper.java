@@ -1,6 +1,7 @@
 package cn.mesmile.admin.common.filter.xss;
 
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.text.StringEscapeUtils;
 
@@ -47,16 +48,16 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
         } else {
             if (this.body == null) {
                 String requestBody = WebUtil.getRequestBody(super.getInputStream());
-//                if (StrUtil.isNotEmpty(requestBody)) {
-//                    // 去除json字符串中所有类型为string两边的空格
-//                    Map<String, Object> stringObjectMap = StringJsonUtils.
-//                            jsonStringToMapAndTrim(requestBody, true, false);
-//                    requestBody = JSONObject.toJSONString(stringObjectMap);
-//                } else {
-//                    // 为空则直接返回
-//                    return super.getInputStream();
-//                }
-                this.body = this.xssEncode(requestBody).getBytes();
+                if (StrUtil.isNotEmpty(requestBody)) {
+                    // 转义html字符，或者去除两边空格
+                    Map<String, Object> stringObjectMap = StringJsonUtils.
+                            jsonStringToMapAndTrim(requestBody, true, false);
+                    requestBody = JSONObject.toJSONString(stringObjectMap);
+                } else {
+                    // 为空则直接返回
+                    return super.getInputStream();
+                }
+                this.body = requestBody.getBytes();
             }
             final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(this.body);
             return new ServletInputStream() {

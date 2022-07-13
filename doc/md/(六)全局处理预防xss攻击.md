@@ -102,7 +102,7 @@ public class XssProperties {
 package cn.mesmile.admin.common.filter.xss;
 
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSONObject;
+import cn.mesmile.admin.common.utils.WebUtil;import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.text.StringEscapeUtils;
 
@@ -158,7 +158,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
                     // 为空则直接返回
                     return super.getInputStream();
                 }
-                this.body = this.xssEncode(requestBody).getBytes();
+                this.body = requestBody.getBytes();
             }
             final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(this.body);
             return new ServletInputStream() {

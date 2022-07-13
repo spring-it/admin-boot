@@ -362,6 +362,19 @@ public class AdminRedisTemplate {
         return (T) this.valueOps.getAndSet(key, value);
     }
 
+    /**
+     * 只有在 key 不存在时设置 key 的值
+     *
+     * @param key key
+     * @param value value
+     * @param timeout 时间
+     * @param timeUnit 时间单位
+     * @return 之前已经存在返回false,不存在返回true
+     */
+    public Boolean setIfAbsentExpire(String key, String value,long timeout,TimeUnit timeUnit) {
+        return this.valueOps.setIfAbsent(key, value,timeout,timeUnit);
+    }
+
     /* ============================== hash相关操作 =============================== */
 
     /**
