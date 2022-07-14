@@ -12,6 +12,11 @@ public interface AdminConstant {
     String BASE_PACKAGE = "cn.mesmile";
 
     /**
+     * redis分布式所的默认前缀
+     */
+    String REDIS_LOCK_PREFIX = "redis_lock";
+
+    /**
      * 限流key的默认前缀
      */
     String RATE_LIMITER_PREFIX = "rate_limiter";

@@ -59,7 +59,7 @@ public class HelloController {
     }
 
     @RateLimiter(param = "#s.hello")
-    @RepeatSubmit(interval = 20000, param = "#s.hello")
+    @RepeatSubmit(interval = 20000, param = "#s.hello;#s.world")
     @PostMapping("/test")
     public R submit(@RequestBody Sys s){
         System.out.println("s = " + s);

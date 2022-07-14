@@ -34,13 +34,14 @@ public class RedisLockAspect implements ApplicationContextAware {
     public Object aroundRedisLock(ProceedingJoinPoint point, RedisLock redisLock) {
         String lockName = redisLock.value();
         Assert.hasText(lockName, "@RedisLock 中 value 不能为 null 或为空");
+        String prefix = redisLock.prefix();
         String lockParam = redisLock.param();
-        String lockKey;
+        String lockKey = prefix + ":" + lockName;
         if (StrUtil.isNotBlank(lockParam)) {
             String evalAsText = EVALUATOR.evalLockParam(point, lockParam, applicationContext);
-            lockKey = lockName + ':' + evalAsText;
-        } else {
-            lockKey = lockName;
+            if (StrUtil.isNotBlank(evalAsText)){
+                lockKey = lockKey + ':' + evalAsText;
+            }
         }
         LockTypeEnum lockType = redisLock.type();
         long waitTime = redisLock.waitTime();
