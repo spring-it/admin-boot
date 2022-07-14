@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.mesmile.admin.modules.system.mapper.SysAttachMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.mesmile.admin.modules.system.entity.SysAttach">
+        <id column="id" property="id"/>
+        <result column="url" property="url"/>
+        <result column="domain" property="domain"/>
+        <result column="name" property="name"/>
+        <result column="original_name" property="originalName"/>
+        <result column="extension" property="extension"/>
+        <result column="attach_size" property="attachSize"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_by" property="createBy"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, url, domain, name, original_name, extension, attach_size, create_time, update_time, create_by, update_by, deleted
+    </sql>
+
+</mapper>
