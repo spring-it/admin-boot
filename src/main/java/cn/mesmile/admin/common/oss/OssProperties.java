@@ -9,19 +9,18 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
  * @Description oss 配置
  */
 @Data
-@EnableConfigurationProperties({OssProperties.class})
 @ConfigurationProperties(prefix = "oss")
 public class OssProperties {
 
     /**
      * 是否启用 Oss 文件存储
      */
-    private Boolean enabled;
+    private Boolean enabled = Boolean.FALSE;
 
     /**
      * 文件存储系统类型
      */
-    private String type;
+    private OssTypeEnum type;
 
     /**
      * oss对外开放的地址

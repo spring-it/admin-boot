@@ -18,6 +18,9 @@ public class OssFile {
     @ApiModelProperty("文件名")
     private String name;
 
+    @ApiModelProperty("hash值")
+    private String hash;
+
     @ApiModelProperty("文件大小")
     private long length;
 
