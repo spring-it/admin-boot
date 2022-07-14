@@ -46,7 +46,7 @@
 
 [(十三)redis注解实现接口限流](/doc/md/(十三)redis注解实现接口限流.md "(十三)redis注解实现接口限流")
 
-[(十四)redis注解实现限制重复提交.md](/doc/md/(十四)redis注解实现限制重复提交.md "(十四)redis注解实现限制重复提交.md")
+[(十四)redis注解实现限制重复提交](/doc/md/(十四)redis注解实现限制重复提交.md "(十四)redis注解实现限制重复提交.md")
 
 ### TODO
 
