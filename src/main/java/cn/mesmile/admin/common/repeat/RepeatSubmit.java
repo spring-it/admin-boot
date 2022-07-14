@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 public @interface RepeatSubmit {
 
     /**
-     * 间隔时间(ms)，小于此时间视为重复提交
+     * 间隔时间，小于此时间视为重复提交
      */
     long interval() default 5000;
 
