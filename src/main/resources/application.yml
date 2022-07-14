@@ -1,5 +1,8 @@
 server:
   port: 8080
+# 系统信息
+admin-boot:
+  version: 1.0.0
 
 spring:
   profiles:

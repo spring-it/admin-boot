@@ -49,7 +49,9 @@ public class RateLimiterAspect implements ApplicationContextAware {
         }
         if (StrUtil.isNotBlank(param)) {
             String evalLockParam = EVALUATOR.evalLockParam(point, param, applicationContext);
-            keyName = keyName + ":" +evalLockParam ;
+            if (StrUtil.isNotBlank(evalLockParam)){
+                keyName = keyName + ":" +evalLockParam ;
+            }
         }
         if (StrUtil.isNotBlank(customKey)){
             keyName = keyName + ":" +customKey ;

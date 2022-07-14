@@ -1,5 +1,7 @@
 package cn.mesmile.admin.common.lock;
 
+import cn.mesmile.admin.common.constant.AdminConstant;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -20,6 +22,11 @@ public @interface RedisLock {
      * 锁的key，唯一
      */
     String value();
+
+    /**
+     * redis锁的默认前缀
+     */
+    String prefix() default AdminConstant.REDIS_LOCK_PREFIX;
 
     /**
      * 参数，支持 spring el表达式 #读取方法参数和@读取spring bean
