@@ -1,5 +1,7 @@
-package cn.mesmile.admin.common.oss;
+package cn.mesmile.admin.common.oss.template;
 
+import cn.mesmile.admin.common.oss.domain.AdminFile;
+import cn.mesmile.admin.common.oss.domain.OssFile;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
@@ -8,6 +10,7 @@ import java.util.List;
 /**
  * Oss操作模板
  * @author zb
+ * @Description  Oss统一操作方法
  */
 public interface OssTemplate {
 
@@ -87,10 +90,10 @@ public interface OssTemplate {
     /**
      * 获取文件下载链接
      * @param bucketName 桶名称
-     * @param fileName 文件名
+     * @param originalFilename 文件名
      * @return 文件下载链接
      */
-    String fileLink(String bucketName, String fileName);
+    String fileLink(String bucketName, String originalFilename);
 
     /**
      * 上传文件
@@ -101,43 +104,43 @@ public interface OssTemplate {
 
     /**
      * 上传文件
-     * @param fileName 文件名称
+     * @param originalFilename 文件名称
      * @param file 文件
      * @return 上传结果
      */
-    AdminFile putFile(String fileName, MultipartFile file);
+    AdminFile putFile(String originalFilename, MultipartFile file);
 
     /**
      * 上传文件
      * @param bucketName 桶名称
-     * @param fileName 文件名称
+     * @param originalFilename 文件名称
      * @param file 文件
      * @return 上传结果
      */
-    AdminFile putFile(String bucketName, String fileName, MultipartFile file);
+    AdminFile putFile(String bucketName, String originalFilename, MultipartFile file);
 
     /**
      * 上传文件
-     * @param fileName 文件名称
+     * @param originalFilename 文件名称
      * @param stream 输入流
      * @return 上传结果
      */
-    AdminFile putFile(String fileName, InputStream stream);
+    AdminFile putFile(String originalFilename, InputStream stream);
 
     /**
      * 上传文件
      * @param bucketName 桶名称
-     * @param fileName 文件名称
+     * @param originalFilename 文件名称
      * @param stream 输入流
      * @return 上传结果
      */
-    AdminFile putFile(String bucketName, String fileName, InputStream stream);
+    AdminFile putFile(String bucketName, String originalFilename, InputStream stream);
 
     /**
      * 删除文件
-     * @param fileName 文件名称
+     * @param originalFilename 文件名称
      */
-    void removeFile(String fileName);
+    void removeFile(String originalFilename);
 
     /**
      * 删除文件

@@ -76,6 +76,14 @@ public class GlobalExceptionHandler {
         return R.fail(serviceException.getCode(), serviceException.getMessage());
     }
 
+    @ExceptionHandler(OssException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public R handle(OssException ossException) {
+        // 这里记录所有堆栈信息
+        log.error("oss异常信息, 消息:{} 编码:{}", ossException.getMessage(), ossException.getCode(), ossException);
+        return R.fail(ossException.getCode(), ossException.getMessage());
+    }
+
     private String getStackTraceByPn(Throwable e, String packagePrefix) {
         StringBuilder append = new StringBuilder("\n").append(e);
         for (StackTraceElement stackTraceElement : e.getStackTrace()) {

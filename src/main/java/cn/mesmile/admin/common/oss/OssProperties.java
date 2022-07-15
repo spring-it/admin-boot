@@ -1,8 +1,8 @@
 package cn.mesmile.admin.common.oss;
 
+import cn.mesmile.admin.common.oss.enums.OssTypeEnum;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 /**
  * @author zb

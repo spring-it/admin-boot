@@ -1,4 +1,4 @@
-package cn.mesmile.admin.common.oss;
+package cn.mesmile.admin.common.oss.enums;
 
 /**
  * @author zb

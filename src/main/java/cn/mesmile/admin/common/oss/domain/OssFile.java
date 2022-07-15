@@ -1,8 +1,9 @@
-package cn.mesmile.admin.common.oss;
+package cn.mesmile.admin.common.oss.domain;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -10,7 +11,9 @@ import java.time.LocalDateTime;
  * @Description
  */
 @Data
-public class OssFile {
+public class OssFile implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty("文件下载链接")
     private String url;

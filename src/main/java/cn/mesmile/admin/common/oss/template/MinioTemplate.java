@@ -1,12 +1,21 @@
-package cn.mesmile.admin.common.oss;
+package cn.mesmile.admin.common.oss.template;
 
 import cn.hutool.core.util.StrUtil;
+import cn.mesmile.admin.common.exceptions.OssException;
+import cn.mesmile.admin.common.oss.OssProperties;
+import cn.mesmile.admin.common.oss.domain.AdminFile;
+import cn.mesmile.admin.common.oss.domain.OssFile;
+import cn.mesmile.admin.common.oss.enums.PolicyTypeEnum;
+import cn.mesmile.admin.common.oss.rule.OssRule;
+import cn.mesmile.admin.common.result.ResultCode;
 import io.minio.*;
 import io.minio.http.Method;
 import io.minio.messages.Bucket;
 import io.minio.messages.DeleteObject;
+import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,7 +24,7 @@ import java.util.stream.Stream;
 
 /**
  * @author zb
- * @Description minio上传模板
+ * @Description mini操作模板
  */
 public class MinioTemplate implements OssTemplate {
 
@@ -42,17 +51,13 @@ public class MinioTemplate implements OssTemplate {
                 String policyTypeEnum = getPolicyTypeEnum(bucketName, PolicyTypeEnum.READ);
                 minioClient.setBucketPolicy(SetBucketPolicyArgs.builder().bucket(bucketName).config(policyTypeEnum).build());
             }
-        } catch (Throwable e) {
-            
+        } catch (Exception e) {
+            throw new OssException(ResultCode.FAILURE, "minio异常", e);
         }
     }
 
     public Bucket getBucket() {
-        try {
-            return getBucket(ossProperties.getBucketName());
-        } catch (Throwable var2) {
-            throw var2;
-        }
+        return getBucket(ossProperties.getBucketName());
     }
 
     public Bucket getBucket(String bucketName) {
@@ -61,27 +66,25 @@ public class MinioTemplate implements OssTemplate {
                 return bucket.name().equals(bucketName);
             }).findFirst();
             return bucketOptional.orElse(null);
-        } catch (Throwable var3) {
-
+        } catch (Exception e) {
+            throw new OssException(ResultCode.FAILURE, "minio异常", e);
         }
-        return null;
     }
 
     public List<Bucket> listBuckets() {
         try {
             return minioClient.listBuckets();
-        } catch (Throwable var2) {
-
+        } catch (Exception e) {
+            throw new OssException(ResultCode.FAILURE, "minio异常", e);
         }
-        return null;
     }
 
     @Override
     public void removeBucket(String bucketName) {
         try {
             minioClient.removeBucket(RemoveBucketArgs.builder().bucket(bucketName).build());
-        } catch (Throwable e) {
-
+        } catch (Exception e) {
+            throw new OssException(ResultCode.FAILURE, "minio异常", e);
         }
     }
 
@@ -90,36 +93,41 @@ public class MinioTemplate implements OssTemplate {
         try {
             BucketExistsArgs build = BucketExistsArgs.builder().bucket(bucketName).build();
             return minioClient.bucketExists(build);
-        } catch (Throwable var3) {
-
+        } catch (Exception e) {
+            throw new OssException(ResultCode.FAILURE, "minio异常", e);
         }
-        return false;
     }
 
     @Override
     public void copyFile(String bucketName, String fileName, String destBucketName) {
         try {
             this.copyFile(bucketName, fileName, destBucketName, fileName);
-        } catch (Throwable var5) {
-            throw var5;
+        } catch (Exception e) {
+            throw new OssException(ResultCode.FAILURE, "minio异常", e);
         }
     }
 
     @Override
     public void copyFile(String bucketName, String fileName, String destBucketName, String destFileName) {
         try {
-            minioClient.copyObject(((CopyObjectArgs.builder().source(((CopySource.builder().bucket(bucketName)).object(fileName)).build()).bucket(destBucketName)).object(destFileName)).build());
-        } catch (Throwable e) {
-
+            CopySource copySource = CopySource.builder()
+                    .bucket(bucketName).object(fileName).build();
+            CopyObjectArgs copyObjectArgs = CopyObjectArgs.builder()
+                    .source(copySource)
+                    .bucket(destBucketName)
+                    .object(destFileName).build();
+            minioClient.copyObject(copyObjectArgs);
+        } catch (Exception e) {
+            throw new OssException(ResultCode.FAILURE, "minio异常", e);
         }
     }
 
     @Override
     public OssFile statFile(String fileName) {
         try {
-            return this.statFile(this.ossProperties.getBucketName(), fileName);
-        } catch (Throwable var3) {
-            throw var3;
+            return statFile(ossProperties.getBucketName(), fileName);
+        } catch (Exception e) {
+            throw new OssException(ResultCode.FAILURE, "minio异常", e);
         }
     }
 
@@ -129,17 +137,16 @@ public class MinioTemplate implements OssTemplate {
             StatObjectResponse stat = minioClient.statObject(((StatObjectArgs.builder().bucket(bucketName)).object(fileName)).build());
             OssFile ossFile = new OssFile();
             ossFile.setName(StrUtil.isEmpty(stat.object()) ? fileName : stat.object());
-            ossFile.setUrl(this.fileLink(ossFile.getName()));
+            ossFile.setUrl(fileLink(ossFile.getName()));
             ossFile.setHash(String.valueOf(stat.hashCode()));
             ossFile.setLength(stat.size());
             LocalDateTime localDateTime = stat.lastModified().toLocalDateTime();
             ossFile.setPutTime(localDateTime);
             ossFile.setContentType(stat.contentType());
             return ossFile;
-        } catch (Throwable e) {
-
+        } catch (Exception e) {
+            throw new OssException(ResultCode.FAILURE, "minio异常", e);
         }
-        return null;
     }
 
     @Override
@@ -154,124 +161,95 @@ public class MinioTemplate implements OssTemplate {
 
     @Override
     public String fileLink(String fileName) {
-        try {
-            return ossProperties.getEndpoint().concat("/").concat(ossProperties.getBucketName()).concat("/").concat(fileName);
-        } catch (Throwable e) {
-
-        }
-        return "";
+            return ossProperties.getEndpoint().concat("/")
+                    .concat(ossProperties.getBucketName()).concat("/")
+                    .concat(fileName);
     }
 
     @Override
-    public String fileLink(String bucketName, String fileName) {
-        try {
-            return this.ossProperties.getEndpoint().concat("/").concat(ossProperties.getBucketName()).concat("/").concat(fileName);
-        } catch (Throwable e) {
-
-        }
-        return "";
+    public String fileLink(String bucketName, String originalFilename) {
+            return ossProperties.getEndpoint().concat("/")
+                    .concat(ossProperties.getBucketName()).concat("/")
+                    .concat(originalFilename);
     }
 
     @Override
     public AdminFile putFile(MultipartFile file) {
-        try {
-            return this.putFile(ossProperties.getBucketName(), file.getOriginalFilename(), file);
-        } catch (Throwable e) {
-            throw e;
-        }
+        return putFile(ossProperties.getBucketName(), file.getOriginalFilename(), file);
     }
 
     @Override
     public AdminFile putFile(String fileName, MultipartFile file) {
-        try {
-            return putFile(ossProperties.getBucketName(), fileName, file);
-        } catch (Throwable e) {
-            throw e;
-        }
+        return putFile(ossProperties.getBucketName(), fileName, file);
     }
 
     @Override
-    public AdminFile putFile(String bucketName, String fileName, MultipartFile file) {
+    public AdminFile putFile(String bucketName, String originalFilename, MultipartFile file) {
         try {
             return putFile(bucketName, file.getOriginalFilename(), file.getInputStream());
-        } catch (Throwable e) {
-
-        }
-        return null;
-    }
-
-    @Override
-    public AdminFile putFile(String fileName, InputStream stream) {
-        try {
-            return putFile(ossProperties.getBucketName(), fileName, stream);
-        } catch (Throwable e) {
-            throw e;
+        } catch (Exception e) {
+            throw new OssException(ResultCode.FAILURE, "minio异常", e);
         }
     }
 
     @Override
-    public AdminFile putFile(String bucketName, String fileName, InputStream stream) {
-        try {
-            return putFile(bucketName, fileName, stream, "application/octet-stream");
-        } catch (Throwable e) {
-
-        }
-        return null;
+    public AdminFile putFile(String originalFilename, InputStream stream) {
+        return putFile(ossProperties.getBucketName(), originalFilename, stream);
     }
 
-    public AdminFile putFile(String bucketName, String fileName, InputStream stream, String contentType) {
-        try {
-            this.makeBucket(bucketName);
-            String originalName = fileName;
-            fileName = this.getFileName(fileName);
-            minioClient.putObject(((PutObjectArgs.builder().bucket(bucketName)).object(fileName)).stream(stream, (long)stream.available(), -1L).contentType(contentType).build());
-            AdminFile file = new AdminFile();
-            file.setOriginalName(originalName);
-            file.setName(fileName);
-            file.setDomain(this.getOssHost(bucketName));
-            file.setUrl(this.fileLink(bucketName, fileName));
-            return file;
-        } catch (Throwable e) {
+    @Override
+    public AdminFile putFile(String bucketName, String originalFilename, InputStream stream) {
+        return putFile(bucketName, originalFilename, stream, MediaType.APPLICATION_OCTET_STREAM_VALUE);
+    }
 
+    public AdminFile putFile(String bucketName, String originalFilename, InputStream stream, String contentType) {
+        try {
+            makeBucket(bucketName);
+            String fileName = getFileName(originalFilename);
+            PutObjectArgs putObjectArgs = PutObjectArgs.builder()
+                    .bucket(bucketName).object(fileName)
+                    .stream(stream, stream.available(), -1L)
+                    .contentType(contentType)
+                    .build();
+            minioClient.putObject(putObjectArgs);
+            return new AdminFile(fileLink(bucketName, fileName), getOssHost(bucketName)
+                    , fileName, originalFilename);
+        } catch (Exception e) {
+            throw new OssException(ResultCode.FAILURE, "minio异常", e);
         }
-        return null;
     }
 
     @Override
     public void removeFile(String fileName) {
-        try {
-            this.removeFile(this.ossProperties.getBucketName(), fileName);
-        } catch (Throwable e) {
-
-        }
+        removeFile(ossProperties.getBucketName(), fileName);
     }
 
     @Override
     public void removeFile(String bucketName, String fileName) {
         try {
-            minioClient.removeObject(((RemoveObjectArgs.builder().bucket(bucketName)).object(fileName)).build());
-        } catch (Throwable e) {
-
+            RemoveObjectArgs removeObjectArgs = RemoveObjectArgs.builder()
+                    .bucket(bucketName).object(fileName).build();
+            minioClient.removeObject(removeObjectArgs);
+        } catch (Exception e) {
+            throw new OssException(ResultCode.FAILURE, "minio异常", e);
         }
     }
 
     @Override
     public void removeFiles(List<String> fileNames) {
-        try {
-            this.removeFiles(this.ossProperties.getBucketName(), fileNames);
-        } catch (Throwable e) {
-
-        }
+        removeFiles(ossProperties.getBucketName(), fileNames);
     }
 
     @Override
     public void removeFiles(String bucketName, List<String> fileNames) {
         try {
             Stream<DeleteObject> stream = fileNames.stream().map(DeleteObject::new);
-            RemoveObjectsArgs.Builder builder = RemoveObjectsArgs.builder().bucket(bucketName);
-            minioClient.removeObjects(builder.objects(stream::iterator).build());
-        } catch (Throwable e) {
-
+            RemoveObjectsArgs removeObjectsArgs = RemoveObjectsArgs.builder()
+                    .bucket(bucketName)
+                    .objects(stream::iterator).build();
+            minioClient.removeObjects(removeObjectsArgs);
+        } catch (Exception e) {
+            throw new OssException(ResultCode.FAILURE, "minio异常", e);
         }
     }
 
@@ -281,11 +259,15 @@ public class MinioTemplate implements OssTemplate {
 
     public String getPresignedObjectUrl(String bucketName, String fileName, Integer expires) {
         try {
-            return minioClient.getPresignedObjectUrl(((GetPresignedObjectUrlArgs.builder().method(Method.GET).bucket(bucketName)).object(fileName)).expiry(expires).build());
-        } catch (Throwable e) {
-
+            GetPresignedObjectUrlArgs getPresignedObjectUrlArgs = GetPresignedObjectUrlArgs.builder()
+                    .method(Method.GET)
+                    .bucket(bucketName)
+                    .object(fileName)
+                    .expiry(expires).build();
+            return minioClient.getPresignedObjectUrl(getPresignedObjectUrlArgs);
+        } catch (Exception e) {
+            throw new OssException(ResultCode.FAILURE, "minio异常", e);
         }
-        return null;
     }
 
     public String getPolicyTypeEnum(PolicyTypeEnum policyType) {
@@ -369,12 +351,11 @@ public class MinioTemplate implements OssTemplate {
     }
 
     public String getOssHost(String bucketName) {
-        return this.ossProperties.getEndpoint() + "/" + bucketName;
+        return ossProperties.getEndpoint() + "/" + bucketName;
     }
 
     public String getOssHost() {
-        return this.getOssHost(ossProperties.getBucketName());
+        return getOssHost(ossProperties.getBucketName());
     }
-
 
 }

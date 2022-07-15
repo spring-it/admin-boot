@@ -3,6 +3,9 @@ package cn.mesmile.admin.modules.system.controller;
 import cn.mesmile.admin.common.limit.LimiterModeEnum;
 import cn.mesmile.admin.common.limit.RateLimiter;
 import cn.mesmile.admin.common.lock.RedisLock;
+import cn.mesmile.admin.common.oss.OssBuilder;
+import cn.mesmile.admin.common.oss.domain.AdminFile;
+import cn.mesmile.admin.common.oss.template.OssTemplate;
 import cn.mesmile.admin.common.repeat.RepeatSubmit;
 import cn.mesmile.admin.common.result.R;
 import cn.mesmile.admin.common.utils.AdminRedisTemplate;
@@ -13,6 +16,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -66,4 +70,9 @@ public class HelloController {
         return R.data(s);
     }
 
+    @PostMapping("/upload")
+    public R upload(@RequestParam("file") MultipartFile file){
+        AdminFile adminFile = OssBuilder.build().putFile(file);
+        return R.data(adminFile);
+    }
 }
