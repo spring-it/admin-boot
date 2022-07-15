@@ -3,7 +3,7 @@ package ${package.Entity};
 #foreach($pkg in ${table.importPackages})
 import ${pkg};
 #end
-#if(${swagger2})
+#if(${swagger})
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 #end
@@ -20,7 +20,6 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author ${author}
- * @since ${date}
  */
 #if(${entityLombokModel})
 @Data
@@ -31,7 +30,7 @@ import lombok.experimental.Accessors;
 #if(${table.convert})
 @TableName("${table.name}")
 #end
-#if(${swagger2})
+#if(${swagger})
 @ApiModel(value = "${entity}对象", description = "$!{table.comment}")
 #end
 #if(${superEntityClass})
@@ -54,7 +53,7 @@ public class ${entity} {
 #set($keyPropertyName=${field.propertyName})
 #end
 #if("$!field.comment" != "")
-  #if(${swagger2})
+  #if(${swagger})
     @ApiModelProperty("${field.comment}")
   #else
     /**

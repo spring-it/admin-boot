@@ -98,3 +98,11 @@ repeat:
       - /swagger-resources
       - /v2/api-docs
       - /doc.html
+# oss 相关配置
+oss:
+  enabled: true
+  type: minio_oss
+  endpoint: https://play.min.io
+  access-key: Q3AM3UQ867SPQQA43P2F
+  secret-key: zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG
+  bucket-name: resource

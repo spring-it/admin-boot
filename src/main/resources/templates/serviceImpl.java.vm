@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
  * </p>
  *
  * @author ${author}
- * @since ${date}
  */
 @Service
 @Transactional(rollbackFor = Exception.class,propagation = Propagation.SUPPORTS,readOnly = true)

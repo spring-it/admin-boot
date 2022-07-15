@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.text.StringEscapeUtils;
+import org.springframework.http.MediaType;
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
@@ -43,7 +44,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
     public ServletInputStream getInputStream() throws IOException {
         if (super.getHeader("Content-Type") == null) {
             return super.getInputStream();
-        } else if (super.getHeader("Content-Type").startsWith("multipart/form-data")) {
+        } else if (super.getHeader("Content-Type").startsWith(MediaType.MULTIPART_FORM_DATA_VALUE)) {
             return super.getInputStream();
         } else {
             if (this.body == null) {

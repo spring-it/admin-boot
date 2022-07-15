@@ -56,7 +56,7 @@ public class GeneratorCode {
                                 .enableSwagger()
                                 // 指定日期类型
                                 .dateType(DateType.TIME_PACK)
-                                // 覆盖默认配置
+                                // 覆盖已生成的文件
                                 .fileOverride())
                 // 包配置
                 .packageConfig((scanner, builder) ->
@@ -77,7 +77,10 @@ public class GeneratorCode {
                                 new Column("create_by", FieldFill.INSERT),
                                 new Column("update_time", FieldFill.INSERT_UPDATE),
                                 new Column("update_by", FieldFill.INSERT_UPDATE)
-                                ).idType(IdType.ASSIGN_ID).build()
+                                )
+                                .logicDeleteColumnName("deleted")
+                                .logicDeletePropertyName("deleted")
+                                .idType(IdType.ASSIGN_ID).build()
                                 // service配置
                                 .serviceBuilder().superServiceClass(IService.class).superServiceImplClass(ServiceImpl.class)
                                 .formatServiceFileName("%sService").formatServiceImplFileName("%sServiceImpl")

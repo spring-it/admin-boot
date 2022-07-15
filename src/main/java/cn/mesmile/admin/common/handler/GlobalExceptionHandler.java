@@ -4,11 +4,13 @@ import cn.mesmile.admin.common.constant.AdminConstant;
 import cn.mesmile.admin.common.exceptions.*;
 import cn.mesmile.admin.common.result.R;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.validation.ConstraintViolation;
@@ -35,6 +37,7 @@ public class GlobalExceptionHandler {
      * @ExceptionHandler相当于controller的@RequestMapping 如果抛出的的是BusinessException，则调用该方法
      */
     @ExceptionHandler(BusinessException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R handle(BusinessException businessException) {
         // 获取指定包名前缀的异常信息，减少不必要的日志
         String stackTraceByPn = getStackTraceByPn(businessException, AdminConstant.BASE_PACKAGE);
@@ -46,6 +49,7 @@ public class GlobalExceptionHandler {
      * 拦截限流异常信息
      * */
     @ExceptionHandler(RateLimiterException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R handle(RateLimiterException rateLimiterException) {
         // 获取指定包名前缀的异常信息，减少不必要的日志
 //        String stackTraceByPn = getStackTraceByPn(rateLimiterException, AdminConstant.BASE_PACKAGE);
@@ -56,6 +60,7 @@ public class GlobalExceptionHandler {
      * 重复提交异常信息
      * */
     @ExceptionHandler(RepeatSubmitException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R handle(RepeatSubmitException repeatSubmitException) {
         // 获取指定包名前缀的异常信息，减少不必要的日志
 //        String stackTraceByPn = getStackTraceByPn(rateLimiterException, AdminConstant.BASE_PACKAGE);
@@ -64,10 +69,19 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ServiceException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R handle(ServiceException serviceException) {
         // 这里记录所有堆栈信息
         log.error("记录业务异常信息, 消息:{} 编码:{}", serviceException.getMessage(), serviceException.getCode(), serviceException);
         return R.fail(serviceException.getCode(), serviceException.getMessage());
+    }
+
+    @ExceptionHandler(OssException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public R handle(OssException ossException) {
+        // 这里记录所有堆栈信息
+        log.error("oss异常信息, 消息:{} 编码:{}", ossException.getMessage(), ossException.getCode(), ossException);
+        return R.fail(ossException.getCode(), ossException.getMessage());
     }
 
     private String getStackTraceByPn(Throwable e, String packagePrefix) {
@@ -81,6 +95,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = {BindException.class, ValidationException.class, MethodArgumentNotValidException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R handleValidatedException(Exception exception) {
         BindingResult bindingResult = null;
          if (exception instanceof MethodArgumentNotValidException){
@@ -122,6 +137,7 @@ public class GlobalExceptionHandler {
      * 捕获空指针异常
      **/
     @ExceptionHandler(value = NullPointerException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R handlerBindException(NullPointerException exception) {
         String message = exception.getMessage();
         log.error("全局捕获null错误信息: {}", exception.toString(), exception);
@@ -131,7 +147,8 @@ public class GlobalExceptionHandler {
     /**
      * 捕获最大异常
      **/
-    @ExceptionHandler(value = Exception.class)
+    @ExceptionHandler(value = Throwable.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public R handlerBindException(Exception exception) {
         String message = exception.getMessage();
         log.error("全局捕获错误信息: {}", exception.toString(), exception);
