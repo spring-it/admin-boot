@@ -82,6 +82,12 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+  # 资源信息
+  messages:
+    # 国际化资源文件路径
+    basename: i18n.messages
+    encoding: UTF-8
+
 
 # 配置 xml 文件所在位置    配置全局的 主键策略，默认为 ASSIGN_ID 默认为 【雪花算法】 , atuo 自增
 mybatis-plus:

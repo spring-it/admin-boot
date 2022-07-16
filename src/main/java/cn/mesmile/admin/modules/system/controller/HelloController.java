@@ -9,17 +9,22 @@ import cn.mesmile.admin.common.oss.template.OssTemplate;
 import cn.mesmile.admin.common.repeat.RepeatSubmit;
 import cn.mesmile.admin.common.result.R;
 import cn.mesmile.admin.common.utils.AdminRedisTemplate;
+import cn.mesmile.admin.common.utils.ResourceI18nUtil;
 import cn.mesmile.admin.modules.system.entity.Sys;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.i18nformatter.I18nFormatUtil;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Locale;
 
 /**
  * @author zb
@@ -74,5 +79,12 @@ public class HelloController {
     public R upload(@RequestParam("file") MultipartFile file){
         AdminFile adminFile = OssBuilder.build().putFile(file);
         return R.data(adminFile);
+    }
+
+    @GetMapping("/i18")
+    public R get(){
+        // 参数优先 admin_language   默认根据请求头判断 Accept-Language
+        String username = ResourceI18nUtil.getValueByKey("user.login.username");
+        return R.data(username);
     }
 }

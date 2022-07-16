@@ -26,4 +26,9 @@ public interface AdminConstant {
      */
     String REPEAT_SUBMIT_PREFIX = "repeat_submit";
 
+    /**
+     * 国际化变量参数名
+     */
+    String ADMIN_LANGUAGE = "admin_language";
+
 }
