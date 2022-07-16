@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -17,6 +19,8 @@ import org.springframework.test.web.servlet.result.HeaderResultMatchers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.result.StatusResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 /**
  * @author zb
@@ -52,9 +56,15 @@ public class WebTest {
 
     @Test
     void test01(@Autowired MockMvc mvc) throws Exception {
+        MultiValueMap<String,String> map = new LinkedMultiValueMap<>();
+        map.add("", "");
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.addAll(map);
         //创建虚拟请求，当前访问/buy
         MockHttpServletRequestBuilder requestBuilder =
-                MockMvcRequestBuilders.get("/api/v1/hello/buy");
+                MockMvcRequestBuilders.get("/api/v1/hello/buy")
+                .headers(httpHeaders)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE);
         //执行对应的请求
         ResultActions resultActions = mvc.perform(requestBuilder);
 
