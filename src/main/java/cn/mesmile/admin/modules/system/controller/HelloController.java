@@ -1,5 +1,6 @@
 package cn.mesmile.admin.modules.system.controller;
 
+import cn.mesmile.admin.common.excel.EasyExcelUtil;
 import cn.mesmile.admin.common.limit.LimiterModeEnum;
 import cn.mesmile.admin.common.limit.RateLimiter;
 import cn.mesmile.admin.common.lock.RedisLock;
@@ -24,6 +25,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -87,4 +91,25 @@ public class HelloController {
         String username = ResourceI18nUtil.getValueByKey("user.login.username");
         return R.data(username);
     }
+
+    @PostMapping("/excel")
+    public R excel(@RequestParam("file") MultipartFile file){
+        EasyExcelUtil.readAndSave(file,System.out::println,Sys.class);
+        return R.data("success");
+    }
+
+    @PostMapping("/read")
+    public R read(@RequestParam("file") MultipartFile file){
+        List<Sys> read = EasyExcelUtil.read(file, Sys.class);
+        return R.data(read);
+    }
+
+    @GetMapping("/export")
+    public void export(HttpServletResponse response){
+        ArrayList<Sys> sysList = new ArrayList<>();
+        sysList.add(new Sys("数据①","word数据1"));
+        sysList.add(new Sys("数据②","word数据2"));
+        EasyExcelUtil.export(response,"导出测试", sysList, Sys.class);
+    }
+
 }

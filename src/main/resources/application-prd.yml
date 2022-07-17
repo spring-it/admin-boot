@@ -109,6 +109,7 @@ oss:
 # xxl-job 相关配置
 xxl:
   job:
+    enabled: false
     service-addresses: http://127.0.0.1:8090/xxl-job-admin
     app-name: xxl-job-executor-sample
     access-token: default_token
