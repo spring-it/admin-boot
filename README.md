@@ -13,6 +13,7 @@
 | knife4j      | 2.0.9  | [文档](https://xiaoym.gitee.io/knife4j/)                     |      |
 | redisson     | 3.13.6 | [文档](https://github.com/redisson/redisson)                 |      |
 | xxl-job      | 2.3.1  | [文档](https://www.xuxueli.com/xxl-job/)                     |      |
+| easyexcel   | 3.1.1  | [文档](https://easyexcel.opensource.alibaba.com/)            |      |
 
 
 
@@ -58,7 +59,7 @@
 
 ### TODO
 
-[(十九)集成easyexcel实现excel表格增强](\(十九\)集成easyexcel实现excel表格增强/\(十九\)集成easyexcel实现excel表格增强.md "(十九)集成easyexcel实现excel表格增强")
+[(十九)集成easyexcel表格导入导出](/doc/md/(十九)集成easyexcel表格导入导出.md "(十九)集成easyexcel表格导入导出")
 
 [(二十)分布式应用追踪系统skyWalking](\(二十\)分布式应用追踪系统skyWalking/\(二十\)分布式应用追踪系统skyWalking.md "(二十)分布式应用追踪系统skyWalking")
 

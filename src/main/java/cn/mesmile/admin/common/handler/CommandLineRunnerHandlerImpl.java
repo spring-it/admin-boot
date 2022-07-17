@@ -35,7 +35,7 @@ public class CommandLineRunnerHandlerImpl implements CommandLineRunner {
         Optional<String> activeOptional = Optional.ofNullable(environment.getProperty("spring.profiles.active"));
         String active = activeOptional.orElseGet(() -> "未读取到分支");
         log.info("\n\n\tadmin   当前分支: \t" + active + "\n" +
-                "\tswagger 文档地址: \thttp://" + ip + ":" + port + "/doc.html");
+                "\tswagger 文档地址: \thttp://" + ip + ":" + port + "/doc.html\n");
     }
 
 }

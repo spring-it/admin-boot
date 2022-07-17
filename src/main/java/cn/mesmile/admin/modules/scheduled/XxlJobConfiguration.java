@@ -2,6 +2,7 @@ package cn.mesmile.admin.modules.scheduled;
 
 import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,7 @@ import javax.annotation.Resource;
  * @Description
  */
 @Slf4j
+@ConditionalOnProperty(value = {"xxl.job.enabled"}, havingValue = "true")
 @EnableConfigurationProperties({XxlJobProperties.class})
 @Configuration
 public class XxlJobConfiguration {

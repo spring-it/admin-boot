@@ -13,6 +13,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class XxlJobProperties {
 
     /**
+     * 是否开启xxl-job ,默认不开启
+     */
+    private Boolean enabled = Boolean.FALSE;
+
+    /**
      * 调度中心部署根地址 [选填]：如调度中心集群部署存在多个地址则用逗号分隔
      */
     private String serviceAddresses;
