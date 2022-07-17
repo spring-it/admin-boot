@@ -12,7 +12,7 @@
 | mybatis plus | 3.5.1  | [文档](https://baomidou.com/)                                |      |
 | knife4j      | 2.0.9  | [文档](https://xiaoym.gitee.io/knife4j/)                     |      |
 | redisson     | 3.13.6 | [文档](https://github.com/redisson/redisson)                 |      |
-|              |        |                                                              |      |
+| xxl-job      | 2.3.1  | [文档](https://www.xuxueli.com/xxl-job/)                     |      |
 
 
 
@@ -54,9 +54,9 @@
 
 [(十七)国际化支持](/doc/md/(十七)国际化支持.md "(十七)国际化支持")
 
-### TODO
+[(十八)整合xxl-job分布式定时任务](/doc/md/(十八)整合xxl-job分布式定时任务.md "(十八)整合xxl-job分布式定时任务")
 
-[(十八)整合xxl-job分布式定时任务](<(十八)整合xxl-job分布式定时任务/(十八)整合xxl-job分布式定时任务.md> "(十八)整合xxl-job分布式定时任务")
+### TODO
 
 [(十九)集成easyexcel实现excel表格增强](\(十九\)集成easyexcel实现excel表格增强/\(十九\)集成easyexcel实现excel表格增强.md "(十九)集成easyexcel实现excel表格增强")
 

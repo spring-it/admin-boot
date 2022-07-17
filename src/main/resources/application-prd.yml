@@ -23,7 +23,7 @@ spring:
         # 连接池中最小空闲连接
         min-idle: 5
     # 连接超时时间（毫秒）
-    timeout: 2000
+    timeout: 3000
     # 指定客户端
     client-type: lettuce
 
@@ -76,7 +76,7 @@ redisson:
     enabled: true
     address: redis://${spring.redis.host}:${spring.redis.port}
     database: ${spring.redis.database}
-    pool-size: 30
+    pool-size: 60
     idle-size: ${spring.redis.lettuce.pool.max-idle}
     # 一分钟内，会删除连接个数大于 最小空闲数的连接
     idle-timeout: 60000
@@ -106,3 +106,14 @@ oss:
   access-key: Q3AM3UQ867SPQQA43P2F
   secret-key: zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG
   bucket-name: resource
+# xxl-job 相关配置
+xxl:
+  job:
+    service-addresses: http://127.0.0.1:8090/xxl-job-admin
+    app-name: xxl-job-executor-sample
+    access-token: default_token
+    client-address:
+    client-ip: 127.0.0.1
+    client-port: 9999
+    client-log-path: logs/xxl-job/jobhandler
+    client-log-retention-days: 30
