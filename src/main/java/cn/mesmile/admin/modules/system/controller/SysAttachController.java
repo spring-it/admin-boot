@@ -1,18 +1,17 @@
 package cn.mesmile.admin.modules.system.controller;
 
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RestController;
+import cn.mesmile.admin.common.result.R;
+import cn.mesmile.admin.modules.system.entity.SysAttach;
+import cn.mesmile.admin.modules.system.service.SysAttachService;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
-import cn.mesmile.admin.modules.system.service.SysAttachService;
-import cn.mesmile.admin.modules.system.entity.SysAttach;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import cn.mesmile.admin.common.result.R;
+
 import java.util.List;
 
 /**
