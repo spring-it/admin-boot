@@ -18,7 +18,8 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.plugin.version>3.8.1</maven.plugin.version>
-        <druid.version>1.2.8</druid.version>
+        <!--升级druid版本至1.2.9解决 discard long time none received connection-->
+        <druid.version>1.2.9</druid.version>
         <bitwalker.version>1.21</bitwalker.version>
         <kaptcha.version>2.3.2</kaptcha.version>
         <fastjson.version>1.2.83</fastjson.version>
