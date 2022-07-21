@@ -2,6 +2,7 @@ package cn.mesmile.admin.common.oss.template;
 
 import cn.mesmile.admin.common.oss.domain.AdminFile;
 import cn.mesmile.admin.common.oss.domain.OssFile;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
@@ -91,6 +92,11 @@ public class AliOssTemplate  implements OssTemplate {
 
     @Override
     public AdminFile putFile(String bucketName, String originalFilename, InputStream stream) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<byte[]> download(String fileName) {
         return null;
     }
 

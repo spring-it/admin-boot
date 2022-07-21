@@ -2,6 +2,7 @@ package cn.mesmile.admin.common.oss.template;
 
 import cn.mesmile.admin.common.oss.domain.AdminFile;
 import cn.mesmile.admin.common.oss.domain.OssFile;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
@@ -135,6 +136,14 @@ public interface OssTemplate {
      * @return 上传结果
      */
     AdminFile putFile(String bucketName, String originalFilename, InputStream stream);
+
+    /**
+     * 根据文件名下载
+     * @param fileName 路径+文件名
+     * @return
+     */
+    @Deprecated
+    ResponseEntity<byte[]> download(String fileName);
 
     /**
      * 删除文件

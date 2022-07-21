@@ -20,8 +20,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.checkerframework.checker.i18nformatter.I18nFormatUtil;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -83,6 +85,14 @@ public class HelloController {
     public R upload(@RequestParam("file") MultipartFile file){
         AdminFile adminFile = OssBuilder.build().putFile(file);
         return R.data(adminFile);
+    }
+
+    @Deprecated
+    @ApiIgnore
+    @GetMapping("/down")
+    public ResponseEntity<byte[]> down(@RequestParam("fileName") String fileName){
+        ResponseEntity<byte[]> download = OssBuilder.build().download(fileName);
+        return download;
     }
 
     @GetMapping("/i18")
