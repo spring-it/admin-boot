@@ -56,6 +56,8 @@ spring:
       time-between-eviction-runs-millis: 60000
       # 配置一个连接在池中最小生存的时间，单位是毫秒
       min-evictable-idle-time-millis: 300000
+      # 配置一个连接在池中最大生存的时间，单位是毫秒
+      max-evictable-idle-time-millis: 900000
       # 登陆
       stat-view-servlet:
         enabled: true
@@ -77,6 +79,7 @@ spring:
           slow-sql-millis: 5000
           log-slow-sql: true
           db-type: mysql
+
   # Failed to start bean 'documentationPluginsBootstrapper'; nested exception is java.lang.NullPointerException
   # 因为Springfox 使用的路径匹配是基于AntPathMatcher的，而Spring Boot 2.6.X使用的是PathPatternMatcher
   mvc:
