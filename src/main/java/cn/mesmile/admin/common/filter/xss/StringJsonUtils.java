@@ -12,6 +12,9 @@ import java.util.*;
  * @Description
  */
 public class StringJsonUtils {
+
+    private final static XssHtmlFilter xssHtmlFilter = new XssHtmlFilter();
+
     /**
      * 去除json字符串中所有类型为string两边的空格
      *
@@ -41,7 +44,8 @@ public class StringJsonUtils {
                     String s = o.toString();
                     if (escapeHtml) {
                         // 转义成 html 4
-                        s = StringEscapeUtils.escapeHtml4(s);
+//                        s = StringEscapeUtils.escapeHtml4(s);
+                        s = xssHtmlFilter.filter(s);
                     }
                     if (trim) {
                         // 去除字符串两边空格

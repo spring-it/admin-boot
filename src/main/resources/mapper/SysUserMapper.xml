@@ -4,7 +4,13 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cn.mesmile.admin.modules.system.entity.SysUser">
-        <id column="user_id" property="userId"/>
+        <id column="id" property="id"/>
+        <result column="status" property="status"/>
+        <result column="deleted" property="deleted"/>
+        <result column="create_time" property="createTime"/>
+        <result column="create_by" property="createBy"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="update_by" property="updateBy"/>
         <result column="account" property="account"/>
         <result column="nick_name" property="nickName"/>
         <result column="real_name" property="realName"/>
@@ -15,18 +21,18 @@
         <result column="avatar" property="avatar"/>
         <result column="birthday" property="birthday"/>
         <result column="password" property="password"/>
-        <result column="status" property="status"/>
-        <result column="del_flag" property="delFlag"/>
-        <result column="create_by" property="createBy"/>
-        <result column="create_time" property="createTime"/>
-        <result column="update_by" property="updateBy"/>
-        <result column="update_time" property="updateTime"/>
         <result column="remark" property="remark"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        user_id, account, nick_name, real_name, user_type, email, mobile, sex, avatar, birthday, password, status, del_flag, create_by, create_time, update_by, update_time, remark
+        status,
+        deleted,
+        create_time,
+        create_by,
+        update_time,
+        update_by,
+        id, account, nick_name, real_name, user_type, email, mobile, sex, avatar, birthday, password, remark
     </sql>
 
 </mapper>

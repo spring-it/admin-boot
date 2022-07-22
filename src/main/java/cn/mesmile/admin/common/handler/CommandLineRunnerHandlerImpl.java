@@ -1,5 +1,6 @@
 package cn.mesmile.admin.common.handler;
 
+import cn.hutool.http.HttpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
@@ -16,26 +17,33 @@ import java.util.Optional;
  */
 @Slf4j
 @Component
-@Order(value = 1)
+@Order(value = Integer.MAX_VALUE)
 public class CommandLineRunnerHandlerImpl implements CommandLineRunner {
 
     @Resource
     private Environment environment;
 
     @Override
-    public void run(String... args) throws Exception {
-        InetAddress localHost = InetAddress.getLocalHost();
-        if (localHost == null){
-            return;
+    public void run(String... args)  {
+        try {
+            InetAddress localHost = InetAddress.getLocalHost();
+            if (localHost == null){
+                return;
+            }
+            Optional<String> hostOptional = Optional.ofNullable(localHost.getHostAddress());
+            String ip = hostOptional.orElseGet(() -> "localhost");
+            Optional<String> portOptional = Optional.ofNullable(environment.getProperty("server.port"));
+            String port = portOptional.orElseGet(() -> "未读取到端口");
+            Optional<String> activeOptional = Optional.ofNullable(environment.getProperty("spring.profiles.active"));
+            String active = activeOptional.orElseGet(() -> "未读取到分支");
+            log.info("\n\n\tadmin   当前分支: \t" + active + "\n" +
+                    "\tswagger 文档地址: \thttp://" + ip + ":" + port + "/doc.html\n");
+            // Initializing Spring DispatcherServlet
+            // Initializing Servlet
+            HttpUtil.get("http://" + ip + ":" + port + "/doc.html", 1000);
+        }catch (Exception e) {
+            log.error("初始化项目信息异常", e);
         }
-        Optional<String> hostOptional = Optional.ofNullable(localHost.getHostAddress());
-        String ip = hostOptional.orElseGet(() -> "localhost");
-        Optional<String> portOptional = Optional.ofNullable(environment.getProperty("server.port"));
-        String port = portOptional.orElseGet(() -> "未读取到端口");
-        Optional<String> activeOptional = Optional.ofNullable(environment.getProperty("spring.profiles.active"));
-        String active = activeOptional.orElseGet(() -> "未读取到分支");
-        log.info("\n\n\tadmin   当前分支: \t" + active + "\n" +
-                "\tswagger 文档地址: \thttp://" + ip + ":" + port + "/doc.html\n");
     }
 
 }

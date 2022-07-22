@@ -1,34 +1,39 @@
 package cn.mesmile.admin.modules.system.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
+import cn.mesmile.admin.common.constant.BaseEntity;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.ToString;
+import lombok.EqualsAndHashCode;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * <p>
- * 用户信息表
+ * 用户信息
  * </p>
  *
  * @author zb
  */
 @Data
 @TableName("sys_user")
-@ApiModel(value = "SysUser对象", description = "用户信息表")
-public class SysUser implements Serializable {
+@ApiModel(value = "SysUser对象", description = "用户信息")
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+public class SysUser extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty("用户ID")
-    @TableId(value = "user_id", type = IdType.ASSIGN_ID)
-    private Long userId;
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    private Long id;
 
     @ApiModelProperty("用户账号")
     private String account;
@@ -48,39 +53,19 @@ public class SysUser implements Serializable {
     @ApiModelProperty("手机号码")
     private String mobile;
 
-    @ApiModelProperty("用户性别（0男 1女 2未知）")
+    @ApiModelProperty("用户性别(1男 2女 3未知）")
     private String sex;
 
     @ApiModelProperty("头像地址")
     private String avatar;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @ApiModelProperty("出生年月")
     private LocalDate birthday;
 
     @ApiModelProperty("密码")
     private String password;
-
-    @ApiModelProperty("帐号状态（0正常 1停用）")
-    private String status;
-
-    @ApiModelProperty("删除标志（0代表存在 1代表删除）")
-    private String delFlag;
-
-    @ApiModelProperty("创建者")
-    @TableField(fill = FieldFill.INSERT)
-    private String createBy;
-
-    @ApiModelProperty("创建时间")
-    @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
-
-    @ApiModelProperty("更新者")
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private String updateBy;
-
-    @ApiModelProperty("更新时间")
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
 
     @ApiModelProperty("备注")
     private String remark;

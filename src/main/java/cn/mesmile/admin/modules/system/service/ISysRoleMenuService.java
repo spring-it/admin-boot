@@ -1,23 +1,23 @@
 package cn.mesmile.admin.modules.system.service;
 
-import cn.mesmile.admin.modules.system.entity.SysUser;
+import cn.mesmile.admin.modules.system.entity.SysRoleMenu;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 /**
  * <p>
- * 用户信息表 服务类
+ * 角色和菜单关联 服务类
  * </p>
  *
  * @author zb
  */
-public interface SysUserService extends IService<SysUser> {
+public interface ISysRoleMenuService extends IService<SysRoleMenu> {
 
     /**
-     * 分页查找用户信息表
+     * 分页查找角色和菜单关联
      * @param page 分页信息
      * @return
      */
-    Page<SysUser> findSysUserPage(Page<SysUser> page);
+    Page<SysRoleMenu> findSysRoleMenuPage(Page<SysRoleMenu> page);
 }
 

@@ -112,7 +112,7 @@ mybatis-plus:
       #字段策略
       insert-strategy: not_null
       update-strategy: not_null
-      select-strategy: not_empty
+      where-strategy: not_empty
       #驼峰下划线转换
       table-underline: true
   # 开启驼峰命名 默认开启驼峰命名
