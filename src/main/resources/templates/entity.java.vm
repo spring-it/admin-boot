@@ -12,6 +12,10 @@ import lombok.Data;
 #if(${chainModel})
 import lombok.experimental.Accessors;
 #end
+#if(${superEntityClass})
+import lombok.ToString;
+import lombok.EqualsAndHashCode;
+#end
 #end
 
 /**
@@ -34,6 +38,8 @@ import lombok.experimental.Accessors;
 @ApiModel(value = "${entity}对象", description = "$!{table.comment}")
 #end
 #if(${superEntityClass})
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public class ${entity} extends ${superEntityClass}#if(${activeRecord})<${entity}>#end {
 #elseif(${activeRecord})
 public class ${entity} extends Model<${entity}> {

@@ -1,5 +1,6 @@
 package ${package.Controller};
 
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 #if(${entityLombokModel})
@@ -24,7 +25,9 @@ import ${package.Service}.${table.serviceName};
 import ${package.Entity}.${entity};
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import cn.mesmile.admin.common.result.R;
-import java.util.List;
+import cn.mesmile.admin.common.utils.FunctionUtil;
+
+import javax.validation.constraints.NotEmpty;
 
 /**
  * <p>
@@ -33,6 +36,7 @@ import java.util.List;
  *
  * @author ${author}
  */
+@Validated
 #if(${swagger})
 @Api(value = "$!{table.comment}相关api",tags = {"$!{table.comment}相关api"})
 #end
@@ -70,9 +74,6 @@ public class ${table.controllerName} {
 
     @PostMapping("/save")
     @ApiOperation("新增$!{table.comment}")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "${table.entityPath}", value = "${table.entityPath}对象的json数据")
-    })
     public R save(@RequestBody ${entity} ${table.entityPath}){
         boolean save = ${table.entityPath}Service.save(${table.entityPath});
         return R.status(save);
@@ -80,22 +81,33 @@ public class ${table.controllerName} {
 
     @PostMapping("/update")
     @ApiOperation("修改$!{table.comment}")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "${table.entityPath}", value = "${table.entityPath}对象的json数据")
-    })
     public R update(@RequestBody ${entity} ${table.entityPath}){
         boolean update = ${table.entityPath}Service.updateById(${table.entityPath});
         return R.status(update);
     }
 
+    #if(!${superEntityClass})
     @ApiOperation("删除$!{table.comment}")
     @PostMapping("/delete")
     @ApiImplicitParams({
-            @ApiImplicitParam(value = "多个id值",name = "ids"),
+            @ApiImplicitParam(value = "多个id值,用英文逗号分割",name = "ids"),
     })
-    public R updateCoinType(@RequestBody List<String> ids){
-        boolean delete = ${table.entityPath}Service.removeByIds(ids);
-        return R.data(delete);
+    public R remove(@RequestParam("ids") @NotEmpty String ids){
+        boolean delete = ${table.entityPath}Service.removeByIds(FunctionUtil.strToLongList(ids));
+        return R.status(delete);
     }
+    #end
+
+    #if(${superEntityClass})
+    @ApiOperation("删除$!{table.comment}")
+    @PostMapping("/delete")
+    @ApiImplicitParams({
+            @ApiImplicitParam(value = "多个id值,用英文逗号分割",name = "ids"),
+    })
+    public R remove(@RequestParam("ids") @NotEmpty String ids){
+        boolean delete = ${table.entityPath}Service.deleteLogic(FunctionUtil.strToLongList(ids));
+        return R.status(delete);
+    }
+    #end
 }
 #end

@@ -1,5 +1,6 @@
 package cn.mesmile.admin.modules.system.service;
 
+import cn.mesmile.admin.common.constant.IBaseService;
 import cn.mesmile.admin.modules.system.entity.SysAttach;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -11,7 +12,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  *
  * @author zb
  */
-public interface SysAttachService extends IService<SysAttach> {
+public interface ISysAttachService extends IBaseService<SysAttach> {
 
     /**
      * 分页查找附件表

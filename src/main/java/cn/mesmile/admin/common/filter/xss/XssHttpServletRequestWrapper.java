@@ -28,7 +28,7 @@ import java.util.Map;
 public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
     private final HttpServletRequest orgRequest;
     private byte[] body;
-//    private static final XssHtmlFilter HTML_FILTER = new XssHtmlFilter();
+    private static final XssHtmlFilter HTML_FILTER = new XssHtmlFilter();
 
     public XssHttpServletRequestWrapper(HttpServletRequest request) {
         super(request);
@@ -134,8 +134,8 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
     private String xssEncode(String input) {
         // 转义成 html 4
-        return StringEscapeUtils.escapeHtml4(input);
-//        return HTML_FILTER.filter(input);
+//        return StringEscapeUtils.escapeHtml4(input);
+        return HTML_FILTER.filter(input);
     }
 
     public HttpServletRequest getOrgRequest() {

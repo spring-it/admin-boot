@@ -8,16 +8,27 @@ import cn.mesmile.admin.common.oss.domain.OssFile;
 import cn.mesmile.admin.common.oss.enums.PolicyTypeEnum;
 import cn.mesmile.admin.common.oss.rule.OssRule;
 import cn.mesmile.admin.common.result.ResultCode;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import io.minio.*;
 import io.minio.http.Method;
 import io.minio.messages.Bucket;
 import io.minio.messages.DeleteObject;
+import org.apache.commons.compress.utils.IOUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -217,6 +228,40 @@ public class MinioTemplate implements OssTemplate {
         } catch (Exception e) {
             throw new OssException(ResultCode.FAILURE, "minio异常", e);
         }
+    }
+
+    /**
+     * fileName 为带有 /年月/年月日/文件名
+     * @param fileName
+     * @return
+     */
+    @Deprecated
+    @Override
+    public ResponseEntity<byte[]> download(String fileName) {
+        ResponseEntity<byte[]> responseEntity = null;
+        GetObjectArgs build = GetObjectArgs.builder().bucket(ossProperties.getBucketName())
+                .object(fileName).build();
+        try (
+                InputStream in = minioClient.getObject(build);
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                ){
+            IOUtils.copy(in, out);
+            //封装返回值
+            byte[] bytes = out.toByteArray();
+            HttpHeaders headers = new HttpHeaders();
+            try {
+                headers.add("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, Constants.UTF_8));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            headers.setContentLength(bytes.length);
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            headers.setAccessControlExposeHeaders(Collections.singletonList("*"));
+            responseEntity = new ResponseEntity<byte[]>(bytes, headers, HttpStatus.OK);
+        } catch (Exception e) {
+            throw new OssException(ResultCode.FAILURE, "minio异常", e);
+        }
+        return responseEntity;
     }
 
     @Override
