@@ -1,7 +1,10 @@
 package cn.mesmile.admin.common.config.swagger;
 
+import cn.mesmile.admin.common.config.system.AdminBootProperties;
+import cn.mesmile.admin.modules.auth.config.JwtProperties;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
+import org.apache.xmlbeans.SystemProperties;
 import springfox.documentation.RequestHandler;
 import springfox.documentation.service.ApiKey;
 
@@ -42,15 +45,15 @@ public class SwaggerUtil {
         return Optional.fromNullable(input.declaringClass());
     }
 
-    public static ApiKey clientInfo() {
-        return new ApiKey("ClientInfo", "Authorization", "header");
+    public static ApiKey clientInfo(JwtProperties jwtProperties) {
+        return new ApiKey("ClientInfo", jwtProperties.getTokenHeader(), "header");
     }
 
-    public static ApiKey adminAuth() {
-        return new ApiKey("AdminAuth", "Admin-Auth", "header");
-    }
+//    public static ApiKey adminAuth() {
+//        return new ApiKey("AdminAuth", "Admin-Auth", "header");
+//    }
 
-    public static ApiKey adminTenant() {
-        return new ApiKey("TenantId", "Tenant-Id", "header");
-    }
+//    public static ApiKey adminTenant() {
+//        return new ApiKey("TenantId", "Tenant-Id", "header");
+//    }
 }

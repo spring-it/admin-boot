@@ -3,7 +3,6 @@ package cn.mesmile.admin.common.filter.xss;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.http.MediaType;
 
 import javax.servlet.ReadListener;

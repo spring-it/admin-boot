@@ -5,6 +5,7 @@ import cn.mesmile.admin.common.exceptions.*;
 import cn.mesmile.admin.common.result.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -142,6 +143,17 @@ public class GlobalExceptionHandler {
         String message = exception.getMessage();
         log.error("全局捕获null错误信息: {}", exception.toString(), exception);
         return R.fail(message);
+    }
+
+    /**
+     * 捕获授权异常 403
+     **/
+    @ExceptionHandler(value = AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public R handlerAccessDeniedException(AccessDeniedException exception) {
+        String message = exception.getMessage();
+        log.error("全局捕获授权错误信息，{}", message ,exception);
+        return R.fail(HttpStatus.FORBIDDEN.value(),"权限不足");
     }
 
     /**

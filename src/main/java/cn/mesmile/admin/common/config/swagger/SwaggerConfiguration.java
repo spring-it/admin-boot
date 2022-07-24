@@ -1,6 +1,7 @@
 package cn.mesmile.admin.common.config.swagger;
 
 import cn.mesmile.admin.common.constant.AdminConstant;
+import cn.mesmile.admin.modules.auth.config.JwtProperties;
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import com.github.xiaoymin.knife4j.spring.extension.OpenApiExtensionResolver;
 import com.google.common.collect.Lists;
@@ -37,6 +38,8 @@ public class SwaggerConfiguration {
      * 引入swagger配置类
      */
     private final SwaggerProperties swaggerProperties;
+
+    private final JwtProperties jwtProperties;
 
     /**
      * 引入Knife4j扩展类
@@ -78,13 +81,14 @@ public class SwaggerConfiguration {
         AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverywhere");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
-        return Lists.newArrayList(new SecurityReference(SwaggerUtil.clientInfo().getName(), authorizationScopes),
-                new SecurityReference(SwaggerUtil.adminAuth().getName(), authorizationScopes),
-                new SecurityReference(SwaggerUtil.adminTenant().getName(), authorizationScopes));
+        return Lists.newArrayList(new SecurityReference(SwaggerUtil.clientInfo(jwtProperties).getName(), authorizationScopes));
+//                , new SecurityReference(SwaggerUtil.adminAuth().getName(), authorizationScopes),
+//                new SecurityReference(SwaggerUtil.adminTenant().getName(), authorizationScopes));
     }
 
     private List<SecurityScheme> securitySchemas() {
-        return Lists.newArrayList(SwaggerUtil.clientInfo(), SwaggerUtil.adminAuth(), SwaggerUtil.adminTenant());
+        // SwaggerUtil.adminAuth(), SwaggerUtil.adminTenant()
+        return Lists.newArrayList(SwaggerUtil.clientInfo(jwtProperties));
     }
 
     private ApiInfo apiInfo() {

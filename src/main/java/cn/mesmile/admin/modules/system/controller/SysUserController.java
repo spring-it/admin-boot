@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -32,6 +33,7 @@ public class SysUserController {
 
     private final ISysUserService sysUserService;
 
+    @PreAuthorize("hasAuthority('system:user:list')")
     @ApiOperation("分页查询用户信息")
     @GetMapping("/get")
     @ApiImplicitParams({
