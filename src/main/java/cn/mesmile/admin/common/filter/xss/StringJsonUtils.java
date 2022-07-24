@@ -3,7 +3,6 @@ package cn.mesmile.admin.common.filter.xss;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.text.StringEscapeUtils;
 
 import java.util.*;
 

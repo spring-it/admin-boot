@@ -1,6 +1,7 @@
 package cn.mesmile.admin.common.filter.xss;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.Assert;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -61,15 +62,19 @@ public class WebUtil {
         return sb.toString();
     }
 
-    public static String renderString(HttpServletResponse response, String text) {
+    public static void renderString(HttpServletResponse response,String text, int status) {
         try {
-            response.setStatus(200);
+            Assert.isTrue(status > 0, "状态码有误");
+            response.setStatus(status);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().print(text);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("返回结果异常", e);
         }
-        return "";
+    }
+
+    public static void renderStringSuccess(HttpServletResponse response, String text) {
+        renderString(response, text, 200);
     }
 }

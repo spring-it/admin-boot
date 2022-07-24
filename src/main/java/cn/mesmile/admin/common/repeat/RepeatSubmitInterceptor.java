@@ -3,7 +3,6 @@ package cn.mesmile.admin.common.repeat;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.digest.MD5;
 import cn.mesmile.admin.common.exceptions.RepeatSubmitException;
-import cn.mesmile.admin.common.filter.xss.WebUtil;
 import cn.mesmile.admin.common.lock.AdminExpressionEvaluator;
 import cn.mesmile.admin.common.result.ResultCode;
 import cn.mesmile.admin.common.utils.AdminRedisTemplate;
@@ -12,19 +11,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.core.MethodParameter;
-import org.springframework.http.MediaType;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author zb

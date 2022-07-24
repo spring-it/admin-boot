@@ -1,19 +1,23 @@
 package cn.mesmile.admin.modules.system.entity;
 
 import cn.mesmile.admin.common.constant.BaseEntity;
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.time.LocalDate;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.ToString;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
 
 /**
  * <p>
@@ -36,7 +40,7 @@ public class SysUser extends BaseEntity {
     private Long id;
 
     @ApiModelProperty("用户账号")
-    private String account;
+    private String username;
 
     @ApiModelProperty("用户昵称")
     private String nickName;
@@ -59,11 +63,14 @@ public class SysUser extends BaseEntity {
     @ApiModelProperty("头像地址")
     private String avatar;
 
+//    @JsonDeserialize(using = LocalDateDeserializer.class)
+//    @JsonSerialize(using = LocalDateSerializer.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd")
     @ApiModelProperty("出生年月")
     private LocalDate birthday;
 
+    @JSONField(serialize = false)
     @ApiModelProperty("密码")
     private String password;
 

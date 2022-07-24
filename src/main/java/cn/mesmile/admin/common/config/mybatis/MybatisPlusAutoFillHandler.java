@@ -1,9 +1,13 @@
 package cn.mesmile.admin.common.config.mybatis;
 
+import cn.mesmile.admin.common.utils.AuthUtil;
+import cn.mesmile.admin.modules.auth.security.LoginUserDetails;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -30,11 +34,11 @@ public class MybatisPlusAutoFillHandler implements MetaObjectHandler {
      **/
     @Override
     public void insertFill(MetaObject metaObject) {
-        String username = getUsername();
-        this.strictInsertFill(metaObject, "updateTime", Date.class, new Date());
+        Long userId = getUserId();
+        this.strictInsertFill(metaObject, "updateTime", LocalDateTime.class, LocalDateTime.now());
         // 创建人的填充
-        this.strictInsertFill(metaObject, "createBy", String.class, username);
-        this.strictInsertFill(metaObject, "createTime", Date.class, new Date());
+        this.strictInsertFill(metaObject, "createBy", Long.class, userId);
+        this.strictInsertFill(metaObject, "createTime", LocalDateTime.class, LocalDateTime.now());
     }
 
     /**
@@ -43,22 +47,21 @@ public class MybatisPlusAutoFillHandler implements MetaObjectHandler {
      **/
     @Override
     public void updateFill(MetaObject metaObject) {
-        String username = getUsername();
-        this.strictUpdateFill(metaObject, "updateTime", Date.class, new Date());
+        Long userId = getUserId();
+        this.strictUpdateFill(metaObject, "updateTime" ,LocalDateTime.class, LocalDateTime.now());
         // 修改人的填充
-        this.strictUpdateFill(metaObject, "updateBy", String.class, username);
+        this.strictUpdateFill(metaObject, "updateBy", Long.class, userId);
     }
 
     /**
      * <获取安全上下文里的用户对象 --- 主要是在线程里面获取改值
      **/
-    private String getUsername() {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = "";
-//        if (authentication != null) {
-//            LoginUserDetails loginUserDetails = (LoginUserDetails) authentication.getPrincipal();
-//            username = loginUserDetails.getUsername();
-//        }
-        return username;
+    private Long getUserId() {
+        Authentication authentication = AuthUtil.getAuthentication();
+        if (authentication != null) {
+            LoginUserDetails loginUserDetails = (LoginUserDetails) authentication.getPrincipal();
+            return loginUserDetails.getSysUser().getId();
+        }
+        return null;
     }
 }
