@@ -8,12 +8,12 @@
 ### 软件架构
 | 框架         | 版本号 | 文档地址                                                     | 备注 |
 | ------------ | ------ | ------------------------------------------------------------ | ---- |
-| springboot   | 2.6.9  | [文档](https://docs.spring.io/spring-boot/docs/2.6.9/reference/html) |      |
+| springboot   | 2.6.10  | [文档](https://docs.spring.io/spring-boot/docs/2.6.10/reference/html/) |      |
 | mybatis plus | 3.5.1  | [文档](https://baomidou.com/)                                |      |
 | knife4j      | 2.0.9  | [文档](https://xiaoym.gitee.io/knife4j/)                     |      |
 | redisson     | 3.13.6 | [文档](https://github.com/redisson/redisson)                 |      |
 | xxl-job      | 2.3.1  | [文档](https://www.xuxueli.com/xxl-job/)                     |      |
-| easyexcel   | 3.1.1  | [文档](https://easyexcel.opensource.alibaba.com/)            |      |
+| easyexcel    | 3.1.1  | [文档](https://easyexcel.opensource.alibaba.com/)            |      |
 
 
 
@@ -61,9 +61,9 @@
 
 [(二十)分布式应用追踪系统skyWalking](/doc/md/(二十)分布式应用追踪系统skyWalking.md "(二十)分布式应用追踪系统skyWalking")
 
-### TODO
+[(二十一)spring-security实现认证与授权](/doc/md/(二十一)spring-security实现认证与授权.md "(二十一)spring-security实现认证与授权")
 
-[(二十一)spring security实现认证与授权](<(二十一)spring security实现认证与授权/(二十一)spring security实现认证与授权.md> "(二十一)spring security实现认证与授权")
+### TODO
 
 [(二十二)集成just-auth实现第三方授权登录](\(二十二\)集成just-auth实现第三方授权登录/\(二十二\)集成just-auth实现第三方授权登录.md "(二十二)集成just-auth实现第三方授权登录")
 
