@@ -14,6 +14,7 @@
 | redisson     | 3.13.6 | [文档](https://github.com/redisson/redisson)                 |      |
 | xxl-job      | 2.3.1  | [文档](https://www.xuxueli.com/xxl-job/)                     |      |
 | easyexcel    | 3.1.1  | [文档](https://easyexcel.opensource.alibaba.com/)            |      |
+| just-auth    | 1.16.3 | [文档](https://justauth.wiki/guide/)                         |    |
 
 
 
@@ -63,10 +64,7 @@
 
 [(二十一)spring-security实现认证与授权](/doc/md/(二十一)spring-security实现认证与授权.md "(二十一)spring-security实现认证与授权")
 
-### TODO
-
-[(二十二)集成just-auth实现第三方授权登录](\(二十二\)集成just-auth实现第三方授权登录/\(二十二\)集成just-auth实现第三方授权登录.md "(二十二)集成just-auth实现第三方授权登录")
-
+[(二十二)集成just-auth实现第三方授权登录](/doc/md/(二十二)集成just-auth实现第三方授权登录.md "(二十二)集成just-auth实现第三方授权登录")
 
 ### 参与贡献
 
