@@ -36,7 +36,7 @@ public class RateLimiterAspect implements ApplicationContextAware {
     }
 
     @Around("@annotation(rateLimiter)")
-    public Object aroundRedisLock(ProceedingJoinPoint point, RateLimiter rateLimiter) throws Throwable {
+    public Object aroundRateLimiter(ProceedingJoinPoint point, RateLimiter rateLimiter) throws Throwable {
         String prefix = rateLimiter.prefix();
         String param = rateLimiter.param();
         String customKey = rateLimiter.customKey();
