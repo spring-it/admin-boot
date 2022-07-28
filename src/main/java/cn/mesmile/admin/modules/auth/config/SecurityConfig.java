@@ -111,7 +111,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/doc.html",
                         "/webjars/**/*.css",
                         "/webjars/**/*.js",
-                        "/favicon.ico").permitAll()
+                        "/favicon.ico",
+                        "/oauth/**").permitAll()
                 // 对于登录接口 允许匿名访问
                 .antMatchers("/login").anonymous()
                 // 除了上面的请求，其他请求都需要鉴权认证

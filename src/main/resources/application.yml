@@ -142,3 +142,19 @@ jwt:
   token-prefix: Bearer
   secret: admin-security
   expire-time: 7200
+
+#第三方登陆配置
+social:
+  enabled: true
+  domain: http://127.0.0.1:8080
+  oauth:
+    GITEE:
+      client-id: c05cfd9f79726d8427cdb52d5360a74acbf92fc8cff01fc2deb0c54ed4a84e14
+      client-secret: b36c9fb4dcec933f1ae4b33ff1285cf8afc994ad7d307d1694b067e70bd19908
+      redirect-uri: ${social.domain}/oauth/callback/gitee
+    GITHUB:
+      client-id: 123************
+      client-secret: 123************************************
+      redirect-uri: ${social.domain}/oauth/callback/github
+
+
