@@ -11,18 +11,21 @@ import me.zhyd.oauth.model.AuthCallback;
 import me.zhyd.oauth.model.AuthResponse;
 import me.zhyd.oauth.request.AuthRequest;
 import me.zhyd.oauth.utils.AuthStateUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotBlank;
 import java.io.IOException;
 
 /**
  * @author zb
  * @Description
  */
+@Validated
 @Api(value = "第三方认证相关",tags = {"第三方认证相关api"})
 @RequiredArgsConstructor
 @Slf4j
@@ -39,7 +42,7 @@ public class SocialController {
      * @param type 第三方登录类型 {@link me.zhyd.oauth.config.AuthDefaultSource}
      */
     @GetMapping("/login/{type}")
-    public void login(@PathVariable String type, HttpServletResponse response) throws IOException {
+    public void login(@NotBlank(message = "类型不允许为空") @PathVariable String type, HttpServletResponse response) throws IOException {
         AuthRequest authRequest = SocialAuthUtil.getAuthRequest(type, socialProperties, authStateCache);
         response.sendRedirect(authRequest.authorize(AuthStateUtils.createState()));
     }
@@ -50,7 +53,7 @@ public class SocialController {
      * @param callback 回调携带参数
      */
     @GetMapping("/callback/{type}")
-    public AuthResponse login(@PathVariable String type, AuthCallback callback) {
+    public AuthResponse login(@NotBlank(message = "类型不允许为空") @PathVariable String type, AuthCallback callback) {
         AuthRequest authRequest = SocialAuthUtil.getAuthRequest(type, socialProperties, authStateCache);
         AuthResponse response = authRequest.login(callback);
         log.info("【response】= {}", JSONUtil.toJsonStr(response));
