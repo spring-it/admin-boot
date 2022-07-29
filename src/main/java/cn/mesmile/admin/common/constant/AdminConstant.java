@@ -31,4 +31,9 @@ public interface AdminConstant {
      */
     String ADMIN_LANGUAGE = "admin_language";
 
+    /**
+     * 图形验证码唯一key
+     */
+    String CAPTCHA_CODE_KEY = "captcha_code:";
+
 }

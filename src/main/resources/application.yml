@@ -157,4 +157,8 @@ social:
       client-secret: 123************************************
       redirect-uri: ${social.domain}/oauth/callback/github
 
-
+# 验证码相关
+captcha:
+  enabled: true
+  verify-type: calculate
+  expire: 120

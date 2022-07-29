@@ -1,4 +1,4 @@
-package cn.mesmile.admin.common.captcha.config;
+package cn.mesmile.admin.common.captcha;
 
 /**
  * @author zb
@@ -7,8 +7,11 @@ package cn.mesmile.admin.common.captcha.config;
 public enum VerifyTypeEnum {
 
     /**
-     * 验证码方式， 计算  /  随机字母和数字
+     * 验证码方式， 计算
      */
     CALCULATE,
+    /**
+     * 随机字母和数字
+     */
     RANDOM_LETTER_NUMBER
 }
