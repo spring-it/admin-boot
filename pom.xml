@@ -46,6 +46,7 @@
         <apm-toolkit-trace.version>8.11.0</apm-toolkit-trace.version>
         <just-auth.version>1.16.3</just-auth.version>
         <org.apache.httpclient>4.5.12</org.apache.httpclient>
+        <aliyun.dysmsapi.version>2.0.16</aliyun.dysmsapi.version>
     </properties>
 
     <!--锁定版本-->
@@ -157,6 +158,13 @@
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
             <version>${druid.version}</version>
+        </dependency>
+
+        <!--AliSms-->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>dysmsapi20170525</artifactId>
+            <version>${aliyun.dysmsapi.version}</version>
         </dependency>
 
         <dependency>
