@@ -1,6 +1,8 @@
 package cn.mesmile.admin.common.captcha;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
+import com.google.code.kaptcha.impl.NoNoise;
+import com.google.code.kaptcha.impl.ShadowGimpy;
 import com.google.code.kaptcha.util.Config;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -48,7 +50,7 @@ public class CaptchaConfiguration {
         // 验证码文本字体样式 默认为new Font("Arial", 1, fontSize), new Font("Courier", 1, fontSize)
         properties.setProperty(KAPTCHA_TEXTPRODUCER_FONT_NAMES, "Arial,Courier");
         // 图片样式 水纹com.google.code.kaptcha.impl.WaterRipple 鱼眼com.google.code.kaptcha.impl.FishEyeGimpy 阴影com.google.code.kaptcha.impl.ShadowGimpy
-        properties.setProperty(KAPTCHA_OBSCURIFICATOR_IMPL, "com.google.code.kaptcha.impl.ShadowGimpy");
+        properties.setProperty(KAPTCHA_OBSCURIFICATOR_IMPL, ShadowGimpy.class.getTypeName());
         Config config = new Config(properties);
         defaultKaptcha.setConfig(config);
         return defaultKaptcha;
@@ -91,9 +93,9 @@ public class CaptchaConfiguration {
         // 验证码噪点颜色 默认为Color.BLACK
         properties.setProperty(KAPTCHA_NOISE_COLOR, "white");
         // 干扰实现类
-        properties.setProperty(KAPTCHA_NOISE_IMPL, "com.google.code.kaptcha.impl.NoNoise");
+        properties.setProperty(KAPTCHA_NOISE_IMPL, NoNoise.class.getTypeName());
         // 图片样式 水纹com.google.code.kaptcha.impl.WaterRipple 鱼眼com.google.code.kaptcha.impl.FishEyeGimpy 阴影com.google.code.kaptcha.impl.ShadowGimpy
-        properties.setProperty(KAPTCHA_OBSCURIFICATOR_IMPL, "com.google.code.kaptcha.impl.ShadowGimpy");
+        properties.setProperty(KAPTCHA_OBSCURIFICATOR_IMPL, ShadowGimpy.class.getTypeName());
         Config config = new Config(properties);
         defaultKaptcha.setConfig(config);
         return defaultKaptcha;

@@ -66,6 +66,8 @@
 
 [(二十二)集成just-auth实现第三方授权登录](/doc/md/(二十二)集成just-auth实现第三方授权登录.md "(二十二)集成just-auth实现第三方授权登录")
 
+[(二十三)captcha验证码整合](/doc/md/(二十三)captcha验证码整合.md "(二十三)captcha验证码整合")
+
 ### 参与贡献
 
 1.  Fork 本仓库
