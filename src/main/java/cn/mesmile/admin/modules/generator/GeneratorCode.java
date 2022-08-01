@@ -79,7 +79,7 @@ public class GeneratorCode {
                 // 包配置
                 .packageConfig((scanner, builder) ->
                         builder.parent(scanner.apply("请输入父级包名？"))
-                        .pathInfo(Collections.singletonMap(OutputFile.mapperXml, mapperOutputDir))
+                        .pathInfo(Collections.singletonMap(OutputFile.xml, mapperOutputDir))
                 )
                 // 策略配置
                 .strategyConfig((scanner, builder) ->
@@ -124,7 +124,7 @@ public class GeneratorCode {
                                         .service("/templates/service.java")
                                         .serviceImpl("/templates/serviceImpl.java")
                                         .mapper("/templates/mapper.java")
-                                        .mapperXml("/templates/mapper.xml")
+                                        .xml("/templates/mapper.xml")
                                         .controller("/templates/controller.java")
                                         .build();
                             }
@@ -155,7 +155,7 @@ public class GeneratorCode {
                 // 包配置
                 .packageConfig((scanner, builder) ->
                         builder.parent(scanner.apply("请输入包名？"))
-                                .pathInfo(Collections.singletonMap(OutputFile.mapperXml, mapperOutputDir))
+                                .pathInfo(Collections.singletonMap(OutputFile.xml, mapperOutputDir))
                 )
                 // 策略配置
                 .strategyConfig((scanner, builder) ->
@@ -197,7 +197,7 @@ public class GeneratorCode {
                                         .service("/templates/service.java")
                                         .serviceImpl("/templates/serviceImpl.java")
                                         .mapper("/templates/mapper.java")
-                                        .mapperXml("/templates/mapper.xml")
+                                        .xml("/templates/mapper.xml")
                                         .controller("/templates/controller.java")
                                         .build();
                             }
