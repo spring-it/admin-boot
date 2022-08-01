@@ -36,7 +36,7 @@ public class TencentSmsTemplate implements SmsTemplate {
 //        if (temp && StringUtil.isNotBlank(smsData.getKey())) {
 //            String id = StringUtil.randomUUID();
 //            String value = (String)smsData.getParams().get(smsData.getKey());
-//            this.redis.setEx("blade:sms::captcha:" + phone + ":" + id, value, Duration.ofMinutes(30L));
+//            this.redis.setEx("admin:sms::captcha:" + phone + ":" + id, value, Duration.ofMinutes(30L));
 //            smsCode.setId(id).setValue(value);
 //        } else {
 //            smsCode.setSuccess(Boolean.FALSE);
@@ -49,9 +49,9 @@ public class TencentSmsTemplate implements SmsTemplate {
         return true;
 //        String id = smsCode.getId();
 //        String value = smsCode.getValue();
-//        String cache = (String)this.redis.get("blade:sms::captcha:" + smsCode.getPhone() + ":" + id);
+//        String cache = (String)this.redis.get("admin:sms::captcha:" + smsCode.getPhone() + ":" + id);
 //        if (StringUtil.isNotBlank(value) && StringUtil.equalsIgnoreCase(cache, value)) {
-//            this.redis.del("blade:sms::captcha:" + id);
+//            this.redis.del("admin:sms::captcha:" + id);
 //            return true;
 //        } else {
 //            return false;

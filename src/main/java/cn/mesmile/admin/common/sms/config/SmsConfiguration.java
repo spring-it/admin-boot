@@ -2,7 +2,6 @@ package cn.mesmile.admin.common.sms.config;
 
 import cn.mesmile.admin.common.exceptions.ServiceException;
 import cn.mesmile.admin.common.sms.AliSmsTemplate;
-import cn.mesmile.admin.common.sms.config.SmsProperties;
 import com.aliyun.dysmsapi20170525.Client;
 import com.aliyun.teaopenapi.models.Config;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
