@@ -78,7 +78,7 @@ public class GeneratorCode {
                                 .fileOverride())
                 // 包配置
                 .packageConfig((scanner, builder) ->
-                        builder.parent(scanner.apply("请输入包名？"))
+                        builder.parent(scanner.apply("请输入父级包名？"))
                         .pathInfo(Collections.singletonMap(OutputFile.mapperXml, mapperOutputDir))
                 )
                 // 策略配置
