@@ -47,14 +47,14 @@ public class SysMenuController {
 
     @PostMapping("/save")
     @ApiOperation("新增菜单权限表")
-    public R save(@RequestBody SysMenu sysMenu){
+    public R save(@Validated @RequestBody SysMenu sysMenu){
         boolean save = sysMenuService.save(sysMenu);
         return R.status(save);
     }
 
     @PostMapping("/update")
     @ApiOperation("修改菜单权限表")
-    public R update(@RequestBody SysMenu sysMenu){
+    public R update(@Validated @RequestBody SysMenu sysMenu){
         boolean update = sysMenuService.updateById(sysMenu);
         return R.status(update);
     }

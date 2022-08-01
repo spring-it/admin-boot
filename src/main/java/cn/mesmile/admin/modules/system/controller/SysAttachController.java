@@ -45,14 +45,14 @@ public class SysAttachController {
 
     @PostMapping("/save")
     @ApiOperation("新增附件")
-    public R save(@RequestBody SysAttach sysAttach){
+    public R save(@RequestBody @Validated SysAttach sysAttach){
         boolean save = sysAttachService.save(sysAttach);
         return R.status(save);
     }
 
     @PostMapping("/update")
     @ApiOperation("修改附件")
-    public R update(@RequestBody SysAttach sysAttach){
+    public R update(@RequestBody @Validated SysAttach sysAttach){
         boolean update = sysAttachService.updateById(sysAttach);
         return R.status(update);
     }

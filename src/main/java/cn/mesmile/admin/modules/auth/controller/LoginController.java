@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -44,7 +45,7 @@ public class LoginController {
 
     @PostMapping("/login")
     @ApiOperation("登录接口")
-    public R<LoginVO> login(@RequestBody LoginRequest loginRequest) {
+    public R<LoginVO> login(@RequestBody @Validated LoginRequest loginRequest) {
         LoginVO login = loginService.login(loginRequest);
         return R.data(login);
     }

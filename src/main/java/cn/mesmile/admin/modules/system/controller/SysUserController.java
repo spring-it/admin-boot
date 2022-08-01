@@ -47,14 +47,14 @@ public class SysUserController {
 
     @PostMapping("/save")
     @ApiOperation("新增用户信息")
-    public R save(@RequestBody SysUser sysUser){
+    public R save(@Validated @RequestBody SysUser sysUser){
         boolean save = sysUserService.save(sysUser);
         return R.status(save);
     }
 
     @PostMapping("/update")
     @ApiOperation("修改用户信息")
-    public R update(@RequestBody SysUser sysUser){
+    public R update(@Validated @RequestBody SysUser sysUser){
         boolean update = sysUserService.updateById(sysUser);
         return R.status(update);
     }

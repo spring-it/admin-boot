@@ -74,14 +74,14 @@ public class ${table.controllerName} {
 
     @PostMapping("/save")
     @ApiOperation("新增$!{table.comment}")
-    public R save(@RequestBody ${entity} ${table.entityPath}){
+    public R save(@Validated @RequestBody ${entity} ${table.entityPath}){
         boolean save = ${table.entityPath}Service.save(${table.entityPath});
         return R.status(save);
     }
 
     @PostMapping("/update")
     @ApiOperation("修改$!{table.comment}")
-    public R update(@RequestBody ${entity} ${table.entityPath}){
+    public R update(@Validated @RequestBody ${entity} ${table.entityPath}){
         boolean update = ${table.entityPath}Service.updateById(${table.entityPath});
         return R.status(update);
     }
