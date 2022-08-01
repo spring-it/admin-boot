@@ -8,8 +8,8 @@
 ### 软件架构
 | 框架         | 版本号 | 文档地址                                                     | 备注 |
 | ------------ | ------ | ------------------------------------------------------------ | ---- |
-| springboot   | 2.6.10  | [文档](https://docs.spring.io/spring-boot/docs/2.6.10/reference/html/) |      |
-| mybatis plus | 3.5.1  | [文档](https://baomidou.com/)                                |      |
+| springboot   | 2.7.2  | [文档](https://docs.spring.io/spring-boot/docs/2.7.2/reference/html/) |      |
+| mybatis plus | 3.5.2  | [文档](https://baomidou.com/)                                |      |
 | knife4j      | 2.0.9  | [文档](https://xiaoym.gitee.io/knife4j/)                     |      |
 | redisson     | 3.13.6 | [文档](https://github.com/redisson/redisson)                 |      |
 | xxl-job      | 2.3.1  | [文档](https://www.xuxueli.com/xxl-job/)                     |      |

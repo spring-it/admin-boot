@@ -47,14 +47,14 @@ public class SysRoleMenuController {
 
     @PostMapping("/save")
     @ApiOperation("新增角色和菜单关联")
-    public R save(@RequestBody SysRoleMenu sysRoleMenu){
+    public R save(@Validated @RequestBody SysRoleMenu sysRoleMenu){
         boolean save = sysRoleMenuService.save(sysRoleMenu);
         return R.status(save);
     }
 
     @PostMapping("/update")
     @ApiOperation("修改角色和菜单关联")
-    public R update(@RequestBody SysRoleMenu sysRoleMenu){
+    public R update(@Validated @RequestBody SysRoleMenu sysRoleMenu){
         boolean update = sysRoleMenuService.updateById(sysRoleMenu);
         return R.status(update);
     }

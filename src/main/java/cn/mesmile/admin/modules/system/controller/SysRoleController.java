@@ -47,14 +47,14 @@ public class SysRoleController {
 
     @PostMapping("/save")
     @ApiOperation("新增角色")
-    public R save(@RequestBody SysRole sysRole){
+    public R save(@Validated @RequestBody SysRole sysRole){
         boolean save = sysRoleService.save(sysRole);
         return R.status(save);
     }
 
     @PostMapping("/update")
     @ApiOperation("修改角色")
-    public R update(@RequestBody SysRole sysRole){
+    public R update(@Validated @RequestBody SysRole sysRole){
         boolean update = sysRoleService.updateById(sysRole);
         return R.status(update);
     }
