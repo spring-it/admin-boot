@@ -1,11 +1,13 @@
 package cn.mesmile.admin.modules.system.controller;
 
+import cn.hutool.core.date.DateUtil;
 import cn.mesmile.admin.common.excel.EasyExcelUtil;
 import cn.mesmile.admin.common.limit.LimiterModeEnum;
 import cn.mesmile.admin.common.limit.RateLimiter;
 import cn.mesmile.admin.common.lock.RedisLock;
 import cn.mesmile.admin.common.oss.OssBuilder;
 import cn.mesmile.admin.common.oss.domain.AdminFile;
+import cn.mesmile.admin.common.rabbit.constant.RabbitConstant;
 import cn.mesmile.admin.common.repeat.RepeatSubmit;
 import cn.mesmile.admin.common.result.R;
 import cn.mesmile.admin.common.utils.AdminRedisTemplate;
@@ -16,6 +18,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,6 +42,50 @@ public class HelloController {
 
     @Resource
     private AdminRedisTemplate adminRedisTemplate;
+
+    @Resource
+    private RabbitTemplate rabbitTemplate;
+
+    @GetMapping("/direct")
+    public R send(){
+        rabbitTemplate.convertAndSend(RabbitConstant.DIRECT_MODE_EXCHANGE_ONE,
+                RabbitConstant.DIRECT_MODE_QUEUE_ONE,"direct message");
+        return R.data("发送成功direct");
+    }
+
+    @GetMapping("/fanout")
+    public R fanout(){
+        rabbitTemplate.convertAndSend(RabbitConstant.FANOUT_MODE_EXCHANGE_ONE,
+                "","fanout message");
+        return R.data("发送成功fanout");
+    }
+
+    @GetMapping("/topic")
+    public R topic(){
+        rabbitTemplate.convertAndSend(RabbitConstant.TOPIC_MODE_EXCHANGE_ONE,
+                "topic.mode.test.multi","topic message");
+        return R.data("发送成功topic");
+    }
+
+    @GetMapping("/deadLetter")
+    public R deadLetter(){
+        rabbitTemplate.convertAndSend(RabbitConstant.TOPIC_MODE_EXCHANGE_TWO,
+                "topic.dead.letter.test","deadLetter message "+ DateUtil.now());
+        return R.data("发送成功topic");
+    }
+
+    @GetMapping("/delay")
+    public R delay(){
+        rabbitTemplate.convertAndSend(RabbitConstant.DELAY_MODE_EXCHANGE,
+                RabbitConstant.DELAY_MODE_QUEUE, "delay message, delay 8s, " + DateUtil.now(),
+                    message -> {
+                        message.getMessageProperties().setHeader("x-delay", 8000);
+                        return message;
+                    }
+                );
+        return R.data("发送成功delay");
+    }
+
 
     @RateLimiter(max = 3,limiterMode = LimiterModeEnum.LIMITER_ALL)
     @RepeatSubmit(interval = 20000, param = "#word")
