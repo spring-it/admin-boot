@@ -98,6 +98,32 @@ spring:
       # 多个文件总大小
       max-request-size: 2048MB
 
+  # rabbitmq 配置
+  rabbitmq:
+#    addresses: 81.69.43.78:5672,81.69.43.78:5673,81.69.43.78:5674
+    host: 81.69.43.78
+    username: guest
+    password: guest
+    port: 5672
+    virtual-host: /dev
+    listener:
+      simple:
+        # 开启消息的手工确认，默认是 自动确认
+        acknowledge-mode: manual
+        # 开启重试机制
+        retry:
+          enabled: true # 开启消费者进行重试
+          max-attempts: 5 # 最大重试次数
+          initial-interval: 3000 # 重试时间间隔
+      direct:
+        # 开启消息的手工确认，默认是 自动确认
+        acknowledge-mode: manual
+        # 开启重试机制
+        retry:
+          enabled: true # 开启消费者进行重试
+          max-attempts: 5 # 最大重试次数
+          initial-interval: 3000 # 重试时间间隔
+
 # 配置 xml 文件所在位置    配置全局的 主键策略，默认为 ASSIGN_ID 默认为 【雪花算法】 , atuo 自增
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml

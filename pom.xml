@@ -280,6 +280,12 @@
             <version>${apm-toolkit-trace.version}</version>
         </dependency>
 
+        <!--整合 rabbitmq-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
