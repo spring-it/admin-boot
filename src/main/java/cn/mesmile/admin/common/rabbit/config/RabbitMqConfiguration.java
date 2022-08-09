@@ -33,7 +33,7 @@ public class RabbitMqConfiguration {
     @SuppressWarnings("all")
 	public RabbitTemplate rabbitTemplate(CachingConnectionFactory connectionFactory) {
         // 开启二次确认 生产者到broker的交换机    默认 none [不开启确认]
-		connectionFactory.setPublisherConfirmType(CachingConnectionFactory.ConfirmType.SIMPLE);
+		connectionFactory.setPublisherConfirmType(CachingConnectionFactory.ConfirmType.CORRELATED);
 		// 开启二次确认 交换机到队列的可靠性投递
 		connectionFactory.setPublisherReturns(true);
 		RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
@@ -41,9 +41,11 @@ public class RabbitMqConfiguration {
 		rabbitTemplate.setMandatory(true);
 
 		rabbitTemplate.setConfirmCallback((correlationData, ack, cause) ->
+                // ack为TRUE时候说明，生产者把消息投递到了broker
                 log.info("消息发送成功:correlationData({}),ack({}),cause({})", correlationData, ack, cause)
         );
 		rabbitTemplate.setReturnsCallback((ReturnedMessage returned) ->
+                // 配置return监听处理，消息无法路由到queue触发
                log.info("消息丢失:exchange({}),route({}),replyCode({}),replyText({}),message:{}", returned.getExchange(),
                        returned.getRoutingKey(), returned.getReplyCode(), returned.getReplyText(), returned.getMessage())
         );
