@@ -129,6 +129,9 @@ public class HelloController {
         return R.data(adminFile);
     }
 
+    /**
+     * localhost:8080/api/v1/hello/down?fileName=/upload/202208/20220806/am.pak
+     */
     @Deprecated
     @ApiIgnore
     @GetMapping("/down")

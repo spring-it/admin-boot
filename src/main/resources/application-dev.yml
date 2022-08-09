@@ -105,9 +105,9 @@ repeat:
 oss:
   enabled: true
   type: minio_oss
-  endpoint: https://play.min.io
-  access-key: Q3AM3UQ867SPQQA43P2F
-  secret-key: zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG
+  endpoint: http://81.69.43.78:9000
+  access-key: minioadmin
+  secret-key: minioadmin
   bucket-name: resource
 
 # xxl-job 相关配置
