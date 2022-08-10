@@ -147,6 +147,14 @@
             <version>${mybatis.plus.spring.boot}</version>
         </dependency>
 
+
+        <!-- mybatis-plus 多数据源 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+            <version>3.5.1</version>
+        </dependency>
+
         <!--mysql 驱动-->
         <dependency>
             <groupId>mysql</groupId>
