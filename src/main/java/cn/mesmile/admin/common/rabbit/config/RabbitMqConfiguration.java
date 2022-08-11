@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -221,9 +222,9 @@ public class RabbitMqConfiguration {
                 .deadLetterExchange(RabbitConstant.DEAD_LETTER_MODE_EXCHANGE_ONE)
                 // 设置死信路由key，即 发送到 死信队列 的路由key
                 .deadLetterRoutingKey("dead.mode.topic1")
-                // 队列消息的过期时间，单位 ms
+                // 队列消息的过期时间，单位 ms，超过指定以时间未被消费的消息就会转发到死信队列中去
                 .ttl(10000)
-                // 声明该队列最多能存放的消息个数
+                // 声明该队列最多能存放的消息个数,超过该消息个数并且未被消费就会转发到死信队列中去
                 .maxLength(600).build();
     }
     /**
@@ -314,4 +315,18 @@ public class RabbitMqConfiguration {
         return BindingBuilder.bind(delayQueue()).to(delayExchange()).with(RabbitConstant.DELAY_MODE_QUEUE).noargs();
     }
     /////////////////////////////////////delay mode end///////////////////////////////////////////
+
+    ///////////////////////////////////message mode start/////////////////////////////////////////////
+    /**
+     * message模式交换机
+     */
+    @ConditionalOnProperty(
+            name = "admin.message.service-type",
+            havingValue = "rabbit_mq"
+    )
+    @Bean
+    public TopicExchange messageExchange() {
+        return new TopicExchange(RabbitConstant.MESSAGE_EXCHANGE_DIRECT);
+    }
+    ///////////////////////////////////message mode end/////////////////////////////////////////////
 }
