@@ -1,7 +1,5 @@
 package cn.mesmile.admin.modules.message;
 
-import cn.mesmile.admin.common.utils.SpringUtil;
-import io.lettuce.core.ScriptOutputType;
 import lombok.extern.slf4j.Slf4j;
 import net.dreamlu.iot.mqtt.codec.ByteBufferUtil;
 import net.dreamlu.iot.mqtt.core.server.MqttServer;
@@ -9,8 +7,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import javax.annotation.PreDestroy;
 
 /**
  * @author zb
@@ -27,6 +23,10 @@ import javax.annotation.PreDestroy;
 )
 public class MessageConfiguration {
 
+    /**
+     *  TODO 切换为 springboot 方式
+     * https://gitee.com/596392912/mica-mqtt/blob/master/starter/mica-mqtt-server-spring-boot-starter/README.md
+     */
     @ConditionalOnProperty(
             value = {"admin.message.service-type"},
             havingValue = "mqtt"
@@ -48,7 +48,7 @@ public class MessageConfiguration {
                 .authHandler((context, uniqueId, clientId, userName, password) -> true)
                 // 消息监听
                 .messageListener((context, clientId, message) -> {
-                    System.out.println("sdfkjsdlfkj" + message);
+                    System.out.println("-----------------------------------" + message);
                     log.info("clientId:{} message:{} payload:{}", clientId, message, ByteBufferUtil.toString(message.getPayload()));
                 })
                 .httpEnable(true)
