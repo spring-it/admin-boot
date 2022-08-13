@@ -90,4 +90,22 @@ public interface RabbitConstant {
      * delay交换机
      */
     String DELAY_MODE_EXCHANGE = "delay.mode.exchange";
+
+
+    //////////////////////////////////////rabbit 消息插件 rabbitmq_web_stomp/////////////////////////
+    // rabbitmq-plugins enable rabbitmq_web_stomp rabbitmq_web_stomp_examples
+    /**
+     * 直连交换机
+     */
+    String MESSAGE_EXCHANGE_DIRECT = "message.direct.exchange";
+
+    /**
+     * 普通通知消息
+     */
+    String MESSAGE_QUEUE_SINGLE_ROUTE_KEY = "message.single_";
+
+    /**
+     * 群发通知消息
+     */
+    String MESSAGE_QUEUE_GROUP_ROUTE_KEY = "message.group_";
 }

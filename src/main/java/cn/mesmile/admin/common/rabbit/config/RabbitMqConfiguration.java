@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -33,7 +34,7 @@ public class RabbitMqConfiguration {
     @SuppressWarnings("all")
 	public RabbitTemplate rabbitTemplate(CachingConnectionFactory connectionFactory) {
         // 开启二次确认 生产者到broker的交换机    默认 none [不开启确认]
-		connectionFactory.setPublisherConfirmType(CachingConnectionFactory.ConfirmType.SIMPLE);
+		connectionFactory.setPublisherConfirmType(CachingConnectionFactory.ConfirmType.CORRELATED);
 		// 开启二次确认 交换机到队列的可靠性投递
 		connectionFactory.setPublisherReturns(true);
 		RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
@@ -41,9 +42,11 @@ public class RabbitMqConfiguration {
 		rabbitTemplate.setMandatory(true);
 
 		rabbitTemplate.setConfirmCallback((correlationData, ack, cause) ->
+                // ack为TRUE时候说明，生产者把消息投递到了broker
                 log.info("消息发送成功:correlationData({}),ack({}),cause({})", correlationData, ack, cause)
         );
 		rabbitTemplate.setReturnsCallback((ReturnedMessage returned) ->
+                // 配置return监听处理，消息无法路由到queue触发
                log.info("消息丢失:exchange({}),route({}),replyCode({}),replyText({}),message:{}", returned.getExchange(),
                        returned.getRoutingKey(), returned.getReplyCode(), returned.getReplyText(), returned.getMessage())
         );
@@ -219,9 +222,9 @@ public class RabbitMqConfiguration {
                 .deadLetterExchange(RabbitConstant.DEAD_LETTER_MODE_EXCHANGE_ONE)
                 // 设置死信路由key，即 发送到 死信队列 的路由key
                 .deadLetterRoutingKey("dead.mode.topic1")
-                // 队列消息的过期时间，单位 ms
+                // 队列消息的过期时间，单位 ms，超过指定以时间未被消费的消息就会转发到死信队列中去
                 .ttl(10000)
-                // 声明该队列最多能存放的消息个数
+                // 声明该队列最多能存放的消息个数,超过该消息个数并且未被消费就会转发到死信队列中去
                 .maxLength(600).build();
     }
     /**
@@ -312,4 +315,18 @@ public class RabbitMqConfiguration {
         return BindingBuilder.bind(delayQueue()).to(delayExchange()).with(RabbitConstant.DELAY_MODE_QUEUE).noargs();
     }
     /////////////////////////////////////delay mode end///////////////////////////////////////////
+
+    ///////////////////////////////////message mode start/////////////////////////////////////////////
+    /**
+     * message模式交换机
+     */
+    @ConditionalOnProperty(
+            name = "admin.message.service-type",
+            havingValue = "rabbit_mq"
+    )
+    @Bean
+    public TopicExchange messageExchange() {
+        return new TopicExchange(RabbitConstant.MESSAGE_EXCHANGE_DIRECT);
+    }
+    ///////////////////////////////////message mode end/////////////////////////////////////////////
 }

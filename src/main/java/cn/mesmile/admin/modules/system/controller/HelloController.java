@@ -12,12 +12,15 @@ import cn.mesmile.admin.common.repeat.RepeatSubmit;
 import cn.mesmile.admin.common.result.R;
 import cn.mesmile.admin.common.utils.AdminRedisTemplate;
 import cn.mesmile.admin.common.utils.ResourceI18nUtil;
+import cn.mesmile.admin.modules.message.operational.ISendService;
+import cn.mesmile.admin.modules.message.vo.MqMessageVO;
 import cn.mesmile.admin.modules.system.entity.Sys;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import net.dreamlu.iot.mqtt.core.server.MqttServer;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,6 +48,21 @@ public class HelloController {
 
     @Resource
     private RabbitTemplate rabbitTemplate;
+
+    @Resource
+    private ISendService sendService;
+
+    /**
+     *  客户端工具：https://mqttx.app/
+     */
+    @GetMapping("/message")
+    public R message(){
+        MqMessageVO mqMessageVO = new MqMessageVO();
+        mqMessageVO.setReceiveUser("123");
+        mqMessageVO.setContent("设置内容11111111111");
+        sendService.sendSingleMessage("123",mqMessageVO);
+        return R.data("test");
+    }
 
     @GetMapping("/direct")
     public R send(){

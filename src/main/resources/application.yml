@@ -188,3 +188,8 @@ captcha:
   enabled: true
   verify-type: calculate
   expire: 120
+
+admin:
+  message:
+    enabled: true
+    service-type: mqtt
