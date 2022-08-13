@@ -24,6 +24,10 @@ import org.springframework.context.annotation.Configuration;
 public class MessageConfiguration {
 
     /**
+     *  客户端工具下载： https://mqttx.app/
+     *  mqtt://127.0.0.1:1883
+     *  ws://127.0.0.1:5883
+     *
      *  TODO 切换为 springboot 方式
      * https://gitee.com/596392912/mica-mqtt/blob/master/starter/mica-mqtt-server-spring-boot-starter/README.md
      */
