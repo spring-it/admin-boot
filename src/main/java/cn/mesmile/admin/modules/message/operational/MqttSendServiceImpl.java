@@ -29,7 +29,7 @@ public class MqttSendServiceImpl implements  ISendService{
 
 	@Override
 	public void sendSingleMessage(String receiveUserId, MqMessageVO mqMessageVO) {
-		boolean b = mqttServer.publishAll("/userId" + receiveUserId,
+		boolean b = mqttServer.publishAll("/userId_" + receiveUserId,
 				ByteBuffer.wrap(JSONObject.toJSONString(mqMessageVO).getBytes(StandardCharsets.UTF_8)));
 	}
 

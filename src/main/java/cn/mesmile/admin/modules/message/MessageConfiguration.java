@@ -3,10 +3,12 @@ package cn.mesmile.admin.modules.message;
 import lombok.extern.slf4j.Slf4j;
 import net.dreamlu.iot.mqtt.codec.ByteBufferUtil;
 import net.dreamlu.iot.mqtt.core.server.MqttServer;
+import net.dreamlu.iot.mqtt.core.server.event.IMqttConnectStatusListener;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.tio.core.ChannelContext;
 
 /**
  * @author zb
@@ -47,13 +49,23 @@ public class MessageConfiguration {
                 // 默认为： 8092（mqtt 默认最大消息大小），为了降低内存可以减小小此参数，如果消息过大 t-io 会尝试解析多次
                 .readBufferSize(512)
                 // 最大包体长度，如果包体过大需要设置此参数，默认为： 8092
-                .maxBytesInMessage(1024 * 100)
+                .maxBytesInMessage(1024 * 10)
                 // 自定义认证
                 .authHandler((context, uniqueId, clientId, userName, password) -> true)
                 // 消息监听
                 .messageListener((context, clientId, message) -> {
-                    System.out.println("-----------------------------------" + message);
                     log.info("clientId:{} message:{} payload:{}", clientId, message, ByteBufferUtil.toString(message.getPayload()));
+                })
+                .connectStatusListener(new IMqttConnectStatusListener() {
+                    @Override
+                    public void online(ChannelContext channelContext, String s) {
+                        log.info("--------客户端【上线】----------{}, 客户端id：{}",channelContext, s);
+                    }
+
+                    @Override
+                    public void offline(ChannelContext channelContext, String s) {
+                        log.info("--------客户端【下线】----------{}, 客户端id：{}",channelContext, s);
+                    }
                 })
                 .httpEnable(true)
                 .debug() // 开启 debug 信息日志

@@ -6,7 +6,7 @@ import java.util.Set;
 
 /**
  * @author zb
- * @Description
+ * @Description 统一发送消息方法
  */
 public interface ISendService {
 

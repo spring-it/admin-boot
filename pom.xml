@@ -295,26 +295,10 @@
         </dependency>
 
         <!--mica-mqtt依赖-->
-<!--        <dependency>-->
-<!--            <groupId>net.dreamlu</groupId>-->
-<!--            <artifactId>mica-mqtt-core</artifactId>-->
-<!--            <version>1.2.10</version>-->
-<!--        </dependency>-->
-
         <dependency>
             <groupId>net.dreamlu</groupId>
-            <artifactId>mica-mqtt-server-spring-boot-starter</artifactId>
-            <version>1.3.8</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>error_prone_annotations</artifactId>
-                    <groupId>com.google.errorprone</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>checker-qual</artifactId>
-                    <groupId>org.checkerframework</groupId>
-                </exclusion>
-            </exclusions>
+            <artifactId>mica-mqtt-core</artifactId>
+            <version>1.2.10</version>
         </dependency>
 
     </dependencies>

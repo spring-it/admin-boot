@@ -102,10 +102,10 @@ public interface RabbitConstant {
     /**
      * 普通通知消息
      */
-    String MESSAGE_QUEUE_SINGLE_ROUTE_KEY = "message.single";
+    String MESSAGE_QUEUE_SINGLE_ROUTE_KEY = "message.single_";
 
     /**
      * 群发通知消息
      */
-    String MESSAGE_QUEUE_GROUP_ROUTE_KEY = "message.group";
+    String MESSAGE_QUEUE_GROUP_ROUTE_KEY = "message.group_";
 }
