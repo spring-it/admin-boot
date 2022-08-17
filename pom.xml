@@ -161,6 +161,12 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
+        <!-- 引入mongodb-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+
         <!-- 阿里数据库连接池 -->
         <dependency>
             <groupId>com.alibaba</groupId>

@@ -189,7 +189,8 @@ captcha:
   verify-type: calculate
   expire: 120
 
+# 消息推送相关配置
 admin:
   message:
     enabled: true
-    service-type: mqtt
+    service-type: rabbit_mq
