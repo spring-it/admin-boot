@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.ContentType;
 import cn.mesmile.admin.common.exceptions.EasyExcelException;
+import cn.mesmile.admin.common.exceptions.ServiceException;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.alibaba.excel.read.listener.PageReadListener;
@@ -54,9 +55,9 @@ public class EasyExcelUtil {
     /**
      * 一次性读取所有数据
      *
-     * @param excel excel 文件
+     * @param excel   excel 文件
      * @param sheetNo 读取第几个表格
-     * @param clazz 读取类的class
+     * @param clazz   读取类的class
      * @return 数据
      */
     public static <T> List<T> read(MultipartFile excel, int sheetNo, Class<T> clazz) {
@@ -66,10 +67,10 @@ public class EasyExcelUtil {
     /**
      * 一次性读取所有数据
      *
-     * @param excel excel 文件
-     * @param sheetNo 读取第几个表格
+     * @param excel         excel 文件
+     * @param sheetNo       读取第几个表格
      * @param headRowNumber 标题行在第几行
-     * @param clazz 读取类的class
+     * @param clazz         读取类的class
      * @return 数据
      */
     public static <T> List<T> read(MultipartFile excel, int sheetNo, int headRowNumber, Class<T> clazz) {
@@ -138,15 +139,7 @@ public class EasyExcelUtil {
      * @param clazz    映射类
      */
     public static <T> void export(HttpServletResponse response, String fileName, List<T> dataList, Class<T> clazz) {
-        try {
-            response.setContentType("application/vnd.ms-excel");
-            response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-            fileName = URLEncoder.encode(fileName, StandardCharsets.UTF_8.name());
-            response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");
-            EasyExcel.write(response.getOutputStream(), clazz).sheet("Sheet1").doWrite(dataList);
-        } catch (Exception e) {
-            throw new EasyExcelException("导出文件未知异常", e);
-        }
+        export(response, fileName, "Sheet1", dataList, clazz);
     }
 
     /**
@@ -165,6 +158,50 @@ public class EasyExcelUtil {
             fileName = URLEncoder.encode(fileName, StandardCharsets.UTF_8.name());
             response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");
             EasyExcel.write(response.getOutputStream(), clazz).sheet(sheetName).doWrite(dataList);
+        } catch (Exception e) {
+            throw new EasyExcelException("导出文件未知异常", e);
+        }
+    }
+
+    /**
+     * 导出文件并且添加水印
+     *
+     * @param response  返回体
+     * @param fileName  文件名，不包含后缀
+     * @param dataList  数据体
+     * @param clazz     映射类
+     * @param watermark 水印内容
+     */
+    public static <T> void exportAndWatermark(HttpServletResponse response, String fileName,
+                                              List<T> dataList, Class<T> clazz,String watermark) {
+        exportAndWatermark(response,fileName,"Sheet1",dataList,clazz, watermark);
+    }
+
+    /**
+     * 导出文件并且添加水印
+     *
+     * @param response  返回体
+     * @param fileName  文件名，不包含后缀
+     * @param sheetName sheet名称
+     * @param dataList  数据体
+     * @param clazz     映射类
+     * @param watermark 水印内容
+     */
+    public static <T> void exportAndWatermark(HttpServletResponse response, String fileName, String sheetName,
+                                              List<T> dataList, Class<T> clazz,String watermark) {
+        if (StrUtil.isEmpty(watermark)){
+            throw new ServiceException("水印内容不允许为空");
+        }
+        try {
+            response.setContentType("application/vnd.ms-excel");
+            response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+            fileName = URLEncoder.encode(fileName, StandardCharsets.UTF_8.name());
+            response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");
+            EasyExcel.write(response.getOutputStream(), clazz)
+                    // 注意，此项配置不能少
+                    .inMemory(true)
+                    .registerWriteHandler(new WaterMarkHandler(watermark))
+                    .sheet(sheetName).doWrite(dataList);
         } catch (Exception e) {
             throw new EasyExcelException("导出文件未知异常", e);
         }
