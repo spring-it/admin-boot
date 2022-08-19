@@ -1,5 +1,6 @@
 package cn.mesmile.admin.common.repeat;
 
+import cn.mesmile.admin.common.log.RequestLogInterceptor;
 import cn.mesmile.admin.common.utils.AdminRedisTemplate;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -18,10 +19,6 @@ import java.util.List;
 @Configuration(
         proxyBeanMethods = false
 )
-@ConditionalOnProperty(
-        value = {"repeat.submit.enabled"},
-        havingValue = "true"
-)
 public class WebInterceptorConfig implements WebMvcConfigurer {
 
     @Resource
@@ -32,9 +29,15 @@ public class WebInterceptorConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        RepeatSubmitInterceptor repeatSubmitInterceptor = new RepeatSubmitInterceptor(adminRedisTemplate);
-        List<String> skipUrl = repeatSubmitProperties.getSkipUrl();
-        // 注册过滤器，并且放行某些路径
-        registry.addInterceptor(repeatSubmitInterceptor).excludePathPatterns(skipUrl);
+        // 日志请求id
+        registry.addInterceptor(new RequestLogInterceptor()).addPathPatterns("/**");
+        Boolean enabled = repeatSubmitProperties.getEnabled();
+        if (enabled){
+            // 重复提交拦截
+            RepeatSubmitInterceptor repeatSubmitInterceptor = new RepeatSubmitInterceptor(adminRedisTemplate);
+            List<String> skipUrl = repeatSubmitProperties.getSkipUrl();
+            // 注册过滤器，并且放行某些路径
+            registry.addInterceptor(repeatSubmitInterceptor).excludePathPatterns(skipUrl);
+        }
     }
 }
