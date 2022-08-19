@@ -3,7 +3,9 @@
 ### 介绍
 这是一个基础的企业级基础后端脚手架项目，主要由springboot为基础搭建，后期整合一些基础插件例如：redis、xxl-job、flowable、minioio、easyexcel、skyWalking、rabbitmq。
 
-项目地址：<https://gitee.com/springzb/admin-boot>
+gitee 地址：<https://gitee.com/springzb/admin-boot>
+
+github地址：<https://github.com/spring-it/admin-boot>
 
 ### 软件架构
 | 框架         | 版本号 | 文档地址                                                     | 备注 |
