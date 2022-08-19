@@ -14,7 +14,7 @@
 
 ## 一、引入maven依赖
 
-```java
+```xml
 <!--注：从springboot-2.3开始，校验包被独立成了一个starter组件，所以需要引入validation和web，
        而springboot-2.3之前的版本只需要引入 web 依赖就可以了。-->
     <dependency>

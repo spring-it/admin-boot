@@ -114,7 +114,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/favicon.ico",
                         "/oauth/**",
                         "/captcha",
-                        "/api/v1/hello/**").permitAll()
+                        "/api/v1/hello/**",
+                        "/api/v1/student/**").permitAll()
                 // 对于登录接口 允许匿名访问
                 .antMatchers("/login").anonymous()
                 // 除了上面的请求，其他请求都需要鉴权认证

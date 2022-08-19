@@ -1,4 +1,8 @@
 spring:
+  #需要排除DruidDataSourceAutoConfigure会注入一个DataSourceWrapper，
+  #其会在原生的spring.datasource下找url,username,password等。而我们动态数据源的配置路径是变化的。
+  autoconfigure:
+    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
   datasource:
     dynamic:
       primary: master #设置默认的数据源或者数据源组,默认值即为master
@@ -37,6 +41,15 @@ spring:
     timeout: 3000
     # 指定客户端
     client-type: lettuce
+  # mongodb相关配置
+  data:
+    mongodb:
+      host: 81.69.43.78
+      port: 27017
+      username: admin
+      password: data3.14#
+      # 不必预先创建，不存在该数据库会自动创建
+      database: admin
 
 # xss相关配置 和 去除空格相关配置
 security:

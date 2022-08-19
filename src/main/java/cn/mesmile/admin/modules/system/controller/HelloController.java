@@ -2,6 +2,7 @@ package cn.mesmile.admin.modules.system.controller;
 
 import cn.hutool.core.date.DateUtil;
 import cn.mesmile.admin.common.excel.EasyExcelUtil;
+import cn.mesmile.admin.common.excel.WaterMarkHandler;
 import cn.mesmile.admin.common.limit.LimiterModeEnum;
 import cn.mesmile.admin.common.limit.RateLimiter;
 import cn.mesmile.admin.common.lock.RedisLock;
@@ -15,6 +16,7 @@ import cn.mesmile.admin.common.utils.ResourceI18nUtil;
 import cn.mesmile.admin.modules.message.operational.ISendService;
 import cn.mesmile.admin.modules.message.vo.MqMessageVO;
 import cn.mesmile.admin.modules.system.entity.Sys;
+import com.alibaba.excel.EasyExcel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -30,6 +32,9 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -183,6 +188,14 @@ public class HelloController {
         sysList.add(new Sys("数据①","word数据1"));
         sysList.add(new Sys("数据②","word数据2"));
         EasyExcelUtil.export(response,"导出测试", sysList, Sys.class);
+    }
+
+    @GetMapping("/export2")
+    public void export2(HttpServletResponse response) throws IOException {
+        ArrayList<Sys> sysList = new ArrayList<>();
+        sysList.add(new Sys("数据①","word数据1"));
+        sysList.add(new Sys("数据②","word数据2"));
+        EasyExcelUtil.exportAndWatermark(response,"导出测试", sysList, Sys.class,"我是水印IAmWatermark");
     }
 
 }
