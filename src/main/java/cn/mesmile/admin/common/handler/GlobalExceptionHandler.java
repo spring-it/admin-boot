@@ -10,6 +10,7 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -133,13 +134,20 @@ public class GlobalExceptionHandler {
         return R.fail(exception.getMessage());
     }
 
+    @ExceptionHandler(value = {MissingServletRequestParameterException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public R handlerMissingServletRequestParameterException(MissingServletRequestParameterException exception) {
+        String message = exception.getMessage();
+        log.error("全局捕获MissingServletRequestParameterException错误信息: {}", message, exception);
+        return R.fail("缺少必要参数");
+    }
 
     /**
      * 捕获空指针异常
      **/
     @ExceptionHandler(value = NullPointerException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public R handlerBindException(NullPointerException exception) {
+    public R handlerNullPointException(NullPointerException exception) {
         String message = exception.getMessage();
         log.error("全局捕获null错误信息: {}", exception.toString(), exception);
         return R.fail(message);
