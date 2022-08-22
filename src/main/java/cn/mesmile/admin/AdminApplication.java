@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @author zb
- * @description springboot基础脚手架项目
+ * @description springboot企业级基础脚手架项目
  */
 @SpringBootApplication
 public class AdminApplication {
