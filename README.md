@@ -72,6 +72,8 @@ github地址：<https://github.com/spring-it/admin-boot>
 
 [(二十四)集成sms短信服务](/doc/md/(二十四)集成sms短信服务.md "(二十四)集成sms短信服务")
 
+[(二十五)集成消息队列Rabbitmq.md](/doc/md/(二十五)集成消息队列Rabbitmq.md "(二十五)集成消息队列Rabbitmq.md")
+
 ### 参与贡献
 
 [代码规范:Java开发手册(黄山版)](/doc/pdf/Java开发手册(黄山版).pdf "代码规范:Java开发手册(黄山版)")
