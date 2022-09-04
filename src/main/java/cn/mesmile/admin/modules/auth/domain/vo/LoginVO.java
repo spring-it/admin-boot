@@ -17,12 +17,16 @@ public class LoginVO implements Serializable {
     @ApiModelProperty("accessToken")
     private String accessToken;
 
+    @ApiModelProperty("刷新token")
+    private String refreshToken;
+
     @ApiModelProperty("过期时间，单位秒")
     private Integer expire;
 
     public LoginVO(){}
 
-    public LoginVO(String accessToken,Integer expire){
+    public LoginVO(String accessToken,String refreshToken ,Integer expire){
+        this.refreshToken = refreshToken;
         this.accessToken = accessToken;
         this.expire = expire;
     }

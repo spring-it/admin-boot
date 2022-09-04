@@ -16,12 +16,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -48,6 +46,21 @@ public class LoginController {
     public R<LoginVO> login(@RequestBody @Validated LoginRequest loginRequest) {
         LoginVO login = loginService.login(loginRequest);
         return R.data(login);
+    }
+
+    /**
+     *  思路：
+     *      前端设置一个定时器，每个5分钟比对 token有效期时间
+     *         若token有效期低于20分钟，则开始请求刷新token接口来更新token
+     *         若token已经过期，也请求刷新token接口来更新token
+     * @param refreshToken
+     * @return
+     */
+    @PostMapping("/refreshToken")
+    @ApiOperation("刷新token接口")
+    public R<LoginVO> refreshToken(@NotEmpty(message = "刷新token不允许为空") @RequestParam("refreshToken")String refreshToken){
+        LoginVO loginVO  = loginService.refreshToken(refreshToken);
+        return R.data(loginVO);
     }
 
     /**
