@@ -36,13 +36,18 @@ public @interface RedisLock {
     String param() default "";
 
     /**
-     * 等待锁超时时间，默认 30 秒
+     * 等待获取锁超时时间，默认 30 秒
      */
     long waitTime() default 30L;
 
     /**
      *   Redisson 默认的是 30秒
-     *  自动解锁时间，自动解锁时间一定得大于方法执行时间，否则会导致锁提前释放，默认100 秒
+     *  自动解锁时间，【自动解锁时间一定得大于方法执行时间，否则会导致锁提前释放】，默认100 秒,
+     *
+     *      注意：
+     *      ① 这里采用 lock.tryLock(waitTime, leaseTime, timeUnit) 传入时间后，底层锁[不会自动续期]，即：没有看门狗锁续期功能
+     *
+     *      ② 如果底层采用 lock.lock() 方法，则默认过期时间 30 秒，每隔10会检查是否需要续期 【有看门狗/锁续期 功能】
      */
     long leaseTime() default 100L;
 
