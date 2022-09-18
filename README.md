@@ -72,9 +72,11 @@ github地址：<https://github.com/spring-it/admin-boot>
 
 [(二十四)集成sms短信服务](/doc/md/(二十四)集成sms短信服务.md "(二十四)集成sms短信服务")
 
-[(二十五)集成消息队列Rabbitmq](/doc/md/(二十五)集成消息队列Rabbitmq.md "(二十五)集成消息队列Rabbitmq.md")
+[(二十五)集成消息队列Rabbitmq](/doc/md/(二十五)集成消息队列Rabbitmq.md "(二十五)集成消息队列Rabbitmq")
 
-[(二十六)基于注解的数据字段脱敏](/doc/md/(二十六)基于注解的数据字段脱敏.md "(二十六)基于注解的数据字段脱敏.md")
+[(二十六)基于注解的数据字段脱敏](/doc/md/(二十六)基于注解的数据字段脱敏.md "(二十六)基于注解的数据字段脱敏")
+
+[(二十七)集成websocket实时推送消息](/doc/md/(二十七)集成websocket实时推送消息.md "(二十七)集成websocket实时推送消息")
 
 ### 参与贡献
 
