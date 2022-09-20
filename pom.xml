@@ -34,7 +34,9 @@
         <mybatis.plus.spring.boot>3.5.2</mybatis.plus.spring.boot>
         <hutool.version>5.8.4</hutool.version>
         <!--注意这里 lombok 1.18.10 和 mapstruct 1.3.0.Final 匹配-->
-        <org.projectlombok.version>1.18.10</org.projectlombok.version>
+        <!--注意这里 lombok 1.18.20 和 mapstruct 1.5.2.Final 匹配-->
+        <org.mapstruct.version>1.5.2.Final</org.mapstruct.version>
+        <org.projectlombok.version>1.18.20</org.projectlombok.version>
         <swagger.knife4j.version>2.0.9</swagger.knife4j.version>
         <google.guava.version>29.0-jre</google.guava.version>
         <velocity.engine.core.version>2.3</velocity.engine.core.version>
@@ -131,7 +133,24 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>${org.projectlombok.version}</version>
             <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${org.mapstruct.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>${org.mapstruct.version}</version>
+            <!-- IntelliJ does not pick up the processor if it is not in the dependencies.
+             There is already an open issue for IntelliJ see https://youtrack.jetbrains.com/issue/IDEA-150621
+            -->
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
