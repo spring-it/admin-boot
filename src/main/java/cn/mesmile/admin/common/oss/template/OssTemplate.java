@@ -138,6 +138,13 @@ public interface OssTemplate {
     AdminFile putFile(String bucketName, String originalFilename, InputStream stream);
 
     /**
+     * 获取图片预览地址
+     * @param fileName
+     * @return
+     */
+    String preview(String fileName);
+
+    /**
      * 根据文件名下载
      * @param fileName 路径+文件名
      * @return

@@ -13,6 +13,7 @@ import io.minio.*;
 import io.minio.http.Method;
 import io.minio.messages.Bucket;
 import io.minio.messages.DeleteObject;
+import okhttp3.Headers;
 import org.apache.commons.compress.utils.IOUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -231,6 +232,27 @@ public class MinioTemplate implements OssTemplate {
     }
 
     /**
+     * 预览图片 fileName 为带有 /年月/年月日/文件名
+     * @param fileName
+     * @return
+     */
+    @Override
+    public String preview(String fileName) {
+        // 查看文件地址
+        GetPresignedObjectUrlArgs build = GetPresignedObjectUrlArgs.builder()
+                .bucket(ossProperties.getBucketName())
+                .object(fileName)
+                .method(Method.GET).build();
+        try {
+            String url = minioClient.getPresignedObjectUrl(build);
+            return url;
+        } catch (Exception e) {
+            throw new OssException(ResultCode.FAILURE, "minio异常", e);
+        }
+    }
+
+
+    /**
      * fileName 为带有 /年月/年月日/文件名
      * @param fileName
      * @return
@@ -240,9 +262,10 @@ public class MinioTemplate implements OssTemplate {
     public ResponseEntity<byte[]> download(String fileName) {
         ResponseEntity<byte[]> responseEntity = null;
         GetObjectArgs build = GetObjectArgs.builder().bucket(ossProperties.getBucketName())
-                .object(fileName).build();
+                .object(fileName)
+                .build();
         try (
-                InputStream in = minioClient.getObject(build);
+                GetObjectResponse in = minioClient.getObject(build);
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                 ){
             IOUtils.copy(in, out);
