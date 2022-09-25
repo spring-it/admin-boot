@@ -53,6 +53,27 @@ public class TokenService {
     }
 
     /**
+     * 创建刷新令牌
+     *
+     * @param loginUser 用户信息
+     * @return 令牌
+     */
+    public String createRefreshToken(LoginUserDetails loginUser) {
+        String username = loginUser.getUsername();
+        Integer refreshExpireTime = jwtProperties.getRefreshExpireTime();
+        String uuid = IdUtil.fastSimpleUUID();
+        loginUser.setUuid(uuid);
+        // 存储用户
+        adminRedisTemplate.setEx(username+":refresh:"+uuid, loginUser, Duration.ofSeconds(refreshExpireTime));
+        Map<String, Object> claims = new HashMap<>(16);
+        claims.put("uuid",uuid);
+        claims.put("username", username);
+        claims.put("userId",loginUser.getSysUser().getId());
+        claims.put("refresh","yes");
+        return createToken(claims);
+    }
+
+    /**
      * 验证令牌有效期，相差不足2880分钟(2天)，自动刷新缓存
      *
      * @param loginUser

@@ -28,7 +28,12 @@ public class JwtProperties {
     private String secret = "zb-admin-security";
 
     /**
-     * 过期时间,单位 秒
+     * token过期时间,单位 秒，默认 2个小时
      */
     private Integer expireTime = 7200;
+
+    /**
+     * 刷新token过期时间,单位 秒，默认 7 天
+     */
+    private Integer refreshExpireTime = 3600 * 24 * 7;
 }

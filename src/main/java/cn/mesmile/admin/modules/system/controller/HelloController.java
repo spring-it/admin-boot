@@ -158,6 +158,18 @@ public class HelloController {
         return download;
     }
 
+    /**
+     * localhost:8080/api/v1/hello/preview?fileName=/upload/202208/20220806/am.pak
+     */
+    @Deprecated
+    @ApiIgnore
+    @GetMapping("/preview")
+    public R preview(@RequestParam("fileName") String fileName){
+        String preview = OssBuilder.build().preview(fileName);
+        return R.data(preview);
+    }
+
+
     @GetMapping("/i18")
     public R get(){
         // 参数优先 admin_language   默认根据请求头判断 Accept-Language

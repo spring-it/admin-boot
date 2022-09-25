@@ -13,7 +13,7 @@ github地址：<https://github.com/spring-it/admin-boot>
 | springboot   | 2.7.2  | [文档](https://docs.spring.io/spring-boot/docs/2.7.2/reference/html/) |      |
 | mybatis plus | 3.5.2  | [文档](https://baomidou.com/)                                |      |
 | knife4j      | 2.0.9  | [文档](https://xiaoym.gitee.io/knife4j/)                     |      |
-| redisson     | 3.13.6 | [文档](https://github.com/redisson/redisson)                 |      |
+| redisson     | 3.17.6 | [文档](https://github.com/redisson/redisson)                 |      |
 | xxl-job      | 2.3.1  | [文档](https://www.xuxueli.com/xxl-job/)                     |      |
 | easyexcel    | 3.1.1  | [文档](https://easyexcel.opensource.alibaba.com/)            |      |
 | just-auth    | 1.16.3 | [文档](https://justauth.wiki/guide/)                         |    |
@@ -71,6 +71,12 @@ github地址：<https://github.com/spring-it/admin-boot>
 [(二十三)captcha验证码整合](/doc/md/(二十三)captcha验证码整合.md "(二十三)captcha验证码整合")
 
 [(二十四)集成sms短信服务](/doc/md/(二十四)集成sms短信服务.md "(二十四)集成sms短信服务")
+
+[(二十五)集成消息队列Rabbitmq](/doc/md/(二十五)集成消息队列Rabbitmq.md "(二十五)集成消息队列Rabbitmq")
+
+[(二十六)基于注解的数据字段脱敏](/doc/md/(二十六)基于注解的数据字段脱敏.md "(二十六)基于注解的数据字段脱敏")
+
+[(二十七)集成websocket实时推送消息](/doc/md/(二十七)集成websocket实时推送消息.md "(二十七)集成websocket实时推送消息")
 
 ### 参与贡献
 

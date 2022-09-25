@@ -29,7 +29,7 @@
   <dependency>
       <groupId>org.redisson</groupId>
       <artifactId>redisson</artifactId>
-      <version>3.13.6</version>
+      <version>3.17.6</version>
   </dependency>
 
   <!--aop切面-->

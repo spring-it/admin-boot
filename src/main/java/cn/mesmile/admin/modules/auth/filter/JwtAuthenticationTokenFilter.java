@@ -1,6 +1,7 @@
 package cn.mesmile.admin.modules.auth.filter;
 
 import cn.hutool.core.util.StrUtil;
+import cn.mesmile.admin.common.exceptions.ServiceException;
 import cn.mesmile.admin.common.utils.AdminRedisTemplate;
 import cn.mesmile.admin.common.utils.AuthUtil;
 import cn.mesmile.admin.modules.auth.security.LoginUserDetails;
@@ -41,6 +42,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             Claims claim = tokenService.getClaim(token);
             String uuid = (String) claim.get("uuid");
             String username = (String) claim.get("username");
+            if (StrUtil.isEmpty(uuid) || StrUtil.isEmpty(username)){
+                throw new ServiceException("解析参数异常");
+            }
             LoginUserDetails loginUserDetails = adminRedisTemplate.get(username + ":" + uuid);
             if (loginUserDetails != null){
                 Collection<? extends GrantedAuthority> authorities = loginUserDetails.getAuthorities();

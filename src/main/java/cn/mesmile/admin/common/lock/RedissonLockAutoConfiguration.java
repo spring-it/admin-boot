@@ -43,6 +43,10 @@ public class RedissonLockAutoConfiguration {
         serversConfig.setIdleConnectionTimeout(properties.getIdleTimeout());
         serversConfig.setConnectTimeout(properties.getConnectionTimeout());
         serversConfig.setTimeout(properties.getTimeout());
+        // 最近开发环境使用redisson（版本是3.9），在部署一段时间（1个小时左右）报超时异常
+        // （org.redisson.client.RedisTimeoutException: Redis server response timeout (3000 ms) occured for command）
+        // 此项务必设置为redisson解决之前bug的timeout问题关键
+        // serversConfig.setPingConnectionInterval(1000);
         return config;
     }
 
@@ -107,7 +111,7 @@ public class RedissonLockAutoConfiguration {
         serversConfig.setMasterConnectionMinimumIdleSize(properties.getIdleSize());
         serversConfig.setSlaveConnectionPoolSize(properties.getPoolSize());
         serversConfig.setSlaveConnectionMinimumIdleSize(properties.getIdleSize());
-        serversConfig.setIdleConnectionTimeout(properties.getConnectionTimeout());
+        serversConfig.setIdleConnectionTimeout(properties.getIdleTimeout());
         serversConfig.setConnectTimeout(properties.getConnectionTimeout());
         serversConfig.setTimeout(properties.getTimeout());
         return config;

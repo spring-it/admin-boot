@@ -21,4 +21,11 @@ public interface ILoginService {
      * @return 是否退出成功
      */
     boolean logout();
+
+    /**
+     * 刷新token
+     * @param refreshToken
+     * @return
+     */
+    LoginVO refreshToken(String refreshToken);
 }
