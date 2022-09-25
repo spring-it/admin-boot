@@ -96,6 +96,11 @@ public class AliOssTemplate  implements OssTemplate {
     }
 
     @Override
+    public String preview(String fileName) {
+        return null;
+    }
+
+    @Override
     public ResponseEntity<byte[]> download(String fileName) {
         return null;
     }

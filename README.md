@@ -13,7 +13,7 @@ github地址：<https://github.com/spring-it/admin-boot>
 | springboot   | 2.7.2  | [文档](https://docs.spring.io/spring-boot/docs/2.7.2/reference/html/) |      |
 | mybatis plus | 3.5.2  | [文档](https://baomidou.com/)                                |      |
 | knife4j      | 2.0.9  | [文档](https://xiaoym.gitee.io/knife4j/)                     |      |
-| redisson     | 3.13.6 | [文档](https://github.com/redisson/redisson)                 |      |
+| redisson     | 3.17.6 | [文档](https://github.com/redisson/redisson)                 |      |
 | xxl-job      | 2.3.1  | [文档](https://www.xuxueli.com/xxl-job/)                     |      |
 | easyexcel    | 3.1.1  | [文档](https://easyexcel.opensource.alibaba.com/)            |      |
 | just-auth    | 1.16.3 | [文档](https://justauth.wiki/guide/)                         |    |
